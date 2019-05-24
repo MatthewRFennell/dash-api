@@ -1,9 +1,12 @@
 const express = require('express')
 const bodyParser = require('body-parser')
-const Sequelize = require('sequelize');
+const Sequelize = require('sequelize')
 const logger = require('./src/util')
 const app = express()
 const port = 3000
+const passport = require('passport')
+const localStrategy = require('passport-local').Strategy
+const jwt = require('jsonwebtoken')
 
 const sequelize = new Sequelize('postgres://g1827124_u:RcpqcbAwaY@db.doc.ic.ac.uk:5432/g1827124_u')
 
@@ -13,13 +16,13 @@ app.use(bodyParser.json())
 sequelize
   .authenticate()
   .then(() => {
-    console.log('Connection has been established successfully.');
+    console.log('Connection has been established successfully.')
   })
   .catch(err => {
-    console.error('Unable to connect to the database:', err);
+    console.error('Unable to connect to the database:', err)
   })
 
-const Model = Sequelize.Model;
+const Model = Sequelize.Model
 class Test extends Model {}
 Test.init({
   id: {
@@ -48,6 +51,18 @@ Test.init({
   sequelize,
   modelName: 'test'
 })
+
+passport.use('register', new localStrategy({
+  email: 'email',
+  password: 'password',
+}, async (email, password, done) => {
+  try {
+    const user = await UserModel.create({ email, password })
+    return done(null, user)
+  } catch(err) {
+    done(err)
+  }
+}))
 
 app.get('/', (req, res) => {
   logger.info(`Request received.`)
@@ -89,6 +104,25 @@ app.post('/register', (req, res) => {
     })
   })
 })
+
+passport.use('login', new localStrategy({
+  email: 'email',
+  password: 'password'
+}, async (email, password, done) => {
+  try {
+    const user = await Test.findOne({ email })
+    if(!user){
+      return done(null, false, { message : 'User not found'})
+    }
+    const isInDatabase = await user.isValidPassword(password)
+    if(!isInDatabase){
+      return done(null, false, { message : 'Wrong Password'})
+    }
+    return done(null, user, { message : 'Logged in Successfully'})
+  } catch (error) {
+    return done(error)
+  }
+}))
 
 app.listen(port, () => {
   logger.info(`Dash Backend started on port ${port}`)

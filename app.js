@@ -5,7 +5,7 @@ const logger = require('./src/util')
 const app = express()
 const port = 3000
 
-const sequelize = new Sequelize('postgres://g1827124_u:RcpqcbAwaY@db.doc.ic.ac.uk:5432/g1827124_u')
+const sequelize = new Sequelize('postgres://g1827124_u:RcpqcbAwaY@db.doc.ic.ac.uk:5432/g1827124_u?ssl=true')
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())

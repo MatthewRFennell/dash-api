@@ -5,17 +5,17 @@ const app = express()
 const port = 3000
 const passport = require('passport')
 
-const login = require("./src/routes/login")
-const register = require("./src/routes/register")
-const me = require("./src/routes/me")
+const login = require('./src/routes/login')
+const register = require('./src/routes/register')
+const me = require('./src/routes/me')
 
-require("./src/passport")
+require('./src/passport')
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 app.get('/', (req, res) => {
-  logger.info(`Request received.`)
+  logger.info('Request received.')
   res.send({
     package: 'Hello World',
   })

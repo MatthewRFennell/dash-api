@@ -3,9 +3,11 @@ const bodyParser = require('body-parser')
 const logger = require('./src/util')
 const app = express()
 const port = 3000
+const passport = require('passport')
 
 const login = require("./src/routes/login")
 const register = require("./src/routes/register")
+const me = require("./src/routes/me")
 
 require("./src/passport")
 
@@ -21,6 +23,7 @@ app.get('/', (req, res) => {
 
 app.post('/register', register)
 app.post('/login', login)
+app.get('/me', passport.authenticate('jwt', {session : false}) ,me)
 
 
 app.listen(port, () => {

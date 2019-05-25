@@ -10,7 +10,7 @@ const login = (req, res) => {
         if(!user) {
             res.status(400)
             res.send({
-                succes: false,
+                success: false,
                 message: info.message
             })
             return
@@ -29,7 +29,7 @@ const login = (req, res) => {
                 const token = jwt.sign(reducedUser, "yeet", {expiresIn : '30m'})
 
                 res.json({
-                    succes: true,
+                    success: true,
                     token : token
                 })
             })

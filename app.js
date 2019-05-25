@@ -4,6 +4,8 @@ const Sequelize = require('sequelize');
 const logger = require('./src/util')
 const app = express()
 const port = 3000
+const bcrypt = require('bcrypt')
+const saltRounds = 12
 
 const sequelize = new Sequelize('postgres://g1827124_u:RcpqcbAwaY@db.doc.ic.ac.uk:5432/g1827124_u?ssl=true')
 
@@ -65,28 +67,59 @@ app.get('/kill', (req, res) => {
 app.post('/register', (req, res) => {
   logger.info(`Registering now`)
   res.status(200)
-  console.log(req.body)
-  sequelize.sync().then(() => Test.create({
-    fname: req.body.firstname,
-    sname: req.body.lastname,
-    email: req.body.email,
-    password: 'password',
-  }))
-  .then(_ => res.send({
-    success: true,
-    message: "Account created."
-  }))
-  .catch(Sequelize.ConnectionError, (err) => {
-    res.send({
-      success: false,
-      message: "Your details looked fine, but there was an error fulfilling your request. Please try again."
+  bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
+    Test.create({
+      fname: req.body.firstname,
+      sname: req.body.lastname,
+      email: req.body.email,
+      password: hash,
+    })
+    .then(_ => res.send({
+      success: true,
+      message: "Account created."
+    }))
+    .catch(Sequelize.ConnectionError, (err) => {
+      res.send({
+        success: false,
+        message: "Your details looked fine, but there was an error fulfilling your request. Please try again."
+      })
+    })
+    .catch(Sequelize.UniqueConstraintError, (err) => {
+      res.send({
+        success: false,
+        message: "An account with this email address already exists. Please log in instead."
+      })
     })
   })
-  .catch(Sequelize.UniqueConstraintError, (err) => {
-    res.send({
-      success: false,
-      message: "An account with this email address already exists. Please log in instead."
-    })
+})
+
+app.post('/login', (req, res) => {
+  logger.info(`Logging user in`)
+  res.status(200)
+  sequelize.sync().then(() => Test.findOne({
+    where: {email: req.body.email}
+  }))
+  .then(user => {
+    if (user) {
+      bcrypt.compare(req.body.password, user.password, (err, suc) => {
+        if (suc) {
+          res.send({
+            success: true,
+            message: "Logged in.",
+          })
+        } else {
+          res.send({
+            success: false,
+            message: "Incorrect password. Please try again.",
+          })
+        }
+      })
+    } else {
+      res.send({
+        success: false,
+        message: "Email not found. Check these details and try again.",
+      })
+    }
   })
 })
 

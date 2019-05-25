@@ -7,7 +7,7 @@ const port = 3000
 const bcrypt = require('bcrypt')
 const saltRounds = 12
 
-const sequelize = new Sequelize('postgres://g1827124_u:RcpqcbAwaY@db.doc.ic.ac.uk:5432/g1827124_u')
+const sequelize = new Sequelize('postgres://g1827124_u:RcpqcbAwaY@db.doc.ic.ac.uk:5432/g1827124_u?ssl=true')
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
@@ -101,8 +101,8 @@ app.post('/login', (req, res) => {
   }))
   .then(user => {
     if (user) {
-      bcrypt.compare(req.body.password, user.password, (err, res) => {
-        if (res) {
+      bcrypt.compare(req.body.password, user.password, (err, suc) => {
+        if (suc) {
           res.send({
             success: true,
             message: "Logged in.",

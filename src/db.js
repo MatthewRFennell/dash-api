@@ -1,3 +1,5 @@
+/*global __dirname */
+
 const Sequelize = require('sequelize')
 
 const sequelize = new Sequelize('postgres://g1827124_u:RcpqcbAwaY@db.doc.ic.ac.uk:5432/g1827124_u?ssl=true')

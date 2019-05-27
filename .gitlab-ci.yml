@@ -31,4 +31,4 @@ deploy:
   only:
   - master
   script:
-  - dpl --provider=heroku --app=dash-api-19 --api-key{heroku_api_key}
+  - dpl --provider=heroku --app=dash-api-19 --api-key={heroku_api_key}

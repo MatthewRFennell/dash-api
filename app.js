@@ -1,3 +1,5 @@
+/*global process */
+
 const express = require('express')
 const bodyParser = require('body-parser')
 const logger = require('./src/util')
@@ -26,6 +28,6 @@ app.post('/login', login)
 app.get('/me', passport.authenticate('jwt', {session : false}) ,me)
 
 
-app.listen(port, () => {
-  logger.info(`Dash Backend started on port ${port}`)
+app.listen(process.env.PORT || port, () => {
+  logger.info(`Dash Backend started on port ${process.env.PORT || port}`)
 })

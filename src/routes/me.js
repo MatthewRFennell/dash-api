@@ -15,7 +15,10 @@ const me = (req, res) => {
   }
 
   res.status(200)
-  res.send(reducedUser)
+  res.send({
+    success: true,
+    user : reducedUser
+  })
 }
 
 module.exports = me

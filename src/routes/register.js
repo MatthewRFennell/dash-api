@@ -22,13 +22,15 @@ const register = (req, res) => {
       .catch(Sequelize.ConnectionError, () => {
         res.send({
           success: false,
+          errType: 'misc',
           message: 'Your details looked fine, but there was an error fulfilling your request. Please try again.'
         })
       })
       .catch(Sequelize.UniqueConstraintError, () => {
         res.send({
           success: false,
-          message: 'An account with this email address already exists. Please log in instead.'
+          errType: 'email',
+          message: 'An account for this email already exists'
         })
       })
   })

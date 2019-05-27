@@ -30,7 +30,8 @@ const login = (req, res) => {
 
         res.json({
           success: true,
-          token : token
+          token : token,
+          user: reducedUser
         })
       })
     }

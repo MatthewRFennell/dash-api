@@ -10,9 +10,9 @@ const register = (req, res) => {
   res.status(200)
   bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
     db.Test.create({
-      fname: req.body.firstname,
-      sname: req.body.lastname,
-      email: req.body.email,
+      fname: req.body.firstname.toLowerCase(),
+      sname: req.body.lastname.toLowerCase(),
+      email: req.body.email.toLowerCase(),
       password: hash,
     })
       .then(() => res.send({

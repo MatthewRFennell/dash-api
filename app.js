@@ -3,9 +3,10 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const logger = require('./src/util')
+const passport = require('passport')
+const cors = require('cors')
 const app = express()
 const port = 3000
-const passport = require('passport')
 
 const login = require('./src/routes/login')
 const register = require('./src/routes/register')
@@ -15,6 +16,7 @@ require('./src/passport')
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
+app.use(cors())
 
 app.get('/', (req, res) => {
   logger.info('Request received.')

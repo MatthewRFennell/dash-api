@@ -2,7 +2,7 @@ const db = require('../db')
 
 const events = (req, res) => {
   if(!req.user){
-    res.staus(400)
+    res.status(400)
     res.send({
       success : false
     })

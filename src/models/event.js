@@ -20,9 +20,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    type: {
-      type: DataTypes.STRING,
-    }
   }, {
     sequelize,
     modelName: 'event'

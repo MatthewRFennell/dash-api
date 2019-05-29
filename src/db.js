@@ -33,6 +33,7 @@ const db = {
   Account : Account,
   Event: Event,
   Attendee: Attendee,
+  Transport: Transport,
   sequelize : sequelize
 }
 

@@ -10,22 +10,22 @@ const createEvent = (req, res) => {
       image_path: req.body.path,
       blurb: req.body.blurb
     })
-    .then(event => {
-      return event.setAccount(user)
-    })
-    .then(() => {
-      res.status(200)
-      res.send({
-        success: true
+      .then(event => {
+        return event.setAccount(user)
       })
-    })
-    .catch(err => {
-      res.status(400)
-      res.send({
-        success: false,
-        message: 'Malformed or missing parameters!'
+      .then(() => {
+        res.status(200)
+        res.send({
+          success: true
+        })
       })
-    })
+      .catch(() => {
+        res.status(400)
+        res.send({
+          success: false,
+          message: 'Malformed or missing parameters!'
+        })
+      })
   }).catch(() => {
     res.status(400)
     res.send({

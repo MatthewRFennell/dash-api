@@ -9,7 +9,7 @@ const register = (req, res) => {
   logger.info('Registering now')
   res.status(200)
   bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
-    db.Test.create({
+    db.Account.create({
       fname: req.body.firstname.toLowerCase(),
       sname: req.body.lastname.toLowerCase(),
       email: req.body.email.toLowerCase(),

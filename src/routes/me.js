@@ -8,7 +8,7 @@ const me = (req, res) => {
   }
 
   const reducedUser = {
-    id: req.user.id,
+    id: req.user.account_id,
     email: req.user.email,
     fname: req.user.fname,
     sname: req.user.sname

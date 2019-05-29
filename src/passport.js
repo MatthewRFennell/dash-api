@@ -14,7 +14,7 @@ passport.use(new LocalStrategy({
   passwordField: 'password'
 },
 function (email, password, cb) {
-  return db.sequelize.sync().then(() => db.Test.findOne({
+  return db.sequelize.sync().then(() => db.Account.findOne({
     where: { email: email }
   }))
     .then(user => {
@@ -43,8 +43,8 @@ passport.use(new JWTStrategy({
 function (jwtPayload, cb) {
 
   //find the user in db if needed
-  return db.sequelize.sync().then(() => db.Test.findOne({
-    where : {id : jwtPayload.id}}) //TODO
+  return db.sequelize.sync().then(() => db.Account.findOne({
+    where : {account_id : jwtPayload.account_id}}) //TODO
     .then(user => {
       return cb(null, user)
     })

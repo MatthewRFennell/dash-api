@@ -20,6 +20,7 @@ const register = (req, res) => {
         message: 'Account created.'
       }))
       .catch(Sequelize.ConnectionError, () => {
+        res.status(400)
         res.send({
           success: false,
           errType: 'misc',
@@ -27,6 +28,7 @@ const register = (req, res) => {
         })
       })
       .catch(Sequelize.UniqueConstraintError, () => {
+        res.status(400)
         res.send({
           success: false,
           errType: 'email',

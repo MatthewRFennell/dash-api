@@ -13,6 +13,7 @@ const register = require('./src/routes/register')
 const me = require('./src/routes/me')
 const events = require('./src/routes/events')
 const createEvent = require('./src/routes/createEvent')
+const fullevent = require('./src/routes/fullevent')
 
 require('./src/passport')
 
@@ -30,8 +31,9 @@ app.get('/', (req, res) => {
 app.post('/register', register)
 app.post('/login', login)
 app.get('/me', passport.authenticate('jwt', {session : false}) ,me)
-app.get('/events', passport.authenticate('jwt', {session : false}), events)
 app.post('/createEvent', passport.authenticate('jwt', {session : false}), createEvent)
+app.get('/events', passport.authenticate('jwt', {session : false}) ,events)
+app.get('/fullevent', passport.authenticate('jwt', {session : false}) ,fullevent)
 
 
 app.listen(process.env.PORT || port, () => {

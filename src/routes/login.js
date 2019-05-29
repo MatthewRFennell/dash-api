@@ -26,7 +26,7 @@ const login = (req, res) => {
           fname : user.fname,
           sname : user.sname
         }
-        const token = jwt.sign(reducedUser, 'yeet', {expiresIn : '30m'})
+        const token = jwt.sign(reducedUser, 'yeet', {expiresIn : '24h'})
 
         res.json({
           success: true,

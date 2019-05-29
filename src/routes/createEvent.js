@@ -1,20 +1,29 @@
 const db = require('../db')
 
 const createEvent = (req, res) => {
-  
-  db.sequelize.sync().then(() => db.Account.findOne({
+  db.Account.findOne({
     where: { email: req.body.email}
   }).then(user => {
     db.Event.create({
       name: req.body.name,
+      date: req.body.date,
       image_path: req.body.path,
       blurb: req.body.blurb
-    }).then(event => {
+    })
+    .then(event => {
       return event.setAccount(user)
-    }).then(() => {
+    })
+    .then(() => {
       res.status(200)
       res.send({
         success: true
+      })
+    })
+    .catch(err => {
+      res.status(400)
+      res.send({
+        success: false,
+        message: 'Malformed or missing parameters!'
       })
     })
   }).catch(() => {
@@ -24,9 +33,6 @@ const createEvent = (req, res) => {
       message: 'User with that email does not exists'
     })
   })
-  )
-  
-  
 }
 
 module.exports = createEvent

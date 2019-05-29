@@ -7,12 +7,16 @@ const sequelize = new Sequelize('postgres://g1827124_u:RcpqcbAwaY@db.doc.ic.ac.u
 const Account = sequelize.import(__dirname + '/models/account')
 const Event = sequelize.import(__dirname + '/models/event')
 const Attendee = sequelize.import(__dirname + '/models/attendee')
+const Transport = sequelize.import(__dirname + '/models/transport')
 
 Event.belongsTo(Account)
 Account.hasMany(Event)
 
 Attendee.belongsTo(Event)
 Event.hasMany(Attendee)
+
+Event.hasOne(Transport)
+Transport.belongsTo(Event)
 
 sequelize
   .authenticate()

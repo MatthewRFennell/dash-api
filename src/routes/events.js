@@ -10,10 +10,7 @@ const events = (req, res) => {
   }
 
   db.Event.findAll({
-    include: [{
-      model: db.Account,
-      where: { account_id: req.user.account_id }
-    }]
+    where: { accountAccountId: req.user.account_id }
   })
     .then(results => {
       res.status(200)

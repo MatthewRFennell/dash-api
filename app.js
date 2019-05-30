@@ -26,6 +26,8 @@ const fullevent = require('./src/routes/fullevent')
 const addAttendee = require('./src/routes/addAttendee')
 const createTransport = require('./src/routes/createTransport')
 const editEvent = require('./src/routes/editEvent')
+const editTransport = require('./src/routes/editTransport')
+const editAttendee = require('./src/routes/editAttendee')
 const eventImage = require('./src/routes/eventImage')
 
 require('./src/passport')
@@ -33,6 +35,7 @@ require('./src/passport')
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(cors())
+app.options('*', cors())
 
 app.get('/', (req, res) => {
   logger.info('Request received.')
@@ -50,7 +53,11 @@ app.get('/events', passport.authenticate('jwt', {session : false}) ,events)
 app.get('/fullevent', passport.authenticate('jwt', {session : false}) ,fullevent)
 
 app.put('/editEvent', passport.authenticate('jwt', {session : false}), editEvent)
-app.get('/eventImage', passport.authenticate('jwt', {session : false}) ,eventImage)
+app.put('/editTransport', passport.authenticate('jwt', {session : false}), editTransport)
+app.put('/editAttendee', passport.authenticate('jwt', {session : false}), editAttendee)
+
+
+app.get('/eventImage' ,eventImage)
 
 app.listen(process.env.PORT || port, () => {
   logger.info(`Dash Backend started on port ${process.env.PORT || port}`)

@@ -18,17 +18,6 @@ Event.hasMany(Attendee)
 Event.hasOne(Transport)
 Transport.belongsTo(Event)
 
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log('Connection has been established successfully.')
-  })
-  .catch(err => {
-    console.error('Unable to connect to the database:', err)
-  })
-
-sequelize.sync()
-
 const db = {
   Account : Account,
   Event: Event,

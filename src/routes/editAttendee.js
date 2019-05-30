@@ -2,8 +2,8 @@ const db = require('../db')
 
 const editAttendee = (req, res) => {
   db.Attendee.update({
-    fname: req.body.firstname,
-    sname: req.body.lastname,
+    fname: req.body.fname,
+    sname: req.body.sname,
     diet: req.body.diet
   }, {
     where: {

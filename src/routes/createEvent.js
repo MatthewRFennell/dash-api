@@ -1,10 +1,11 @@
 const db = require('../db')
-const fs = require('fs')
 
 const createEvent = (req, res) => {
+  const email = req.body.email || req.user.dataValues.email
   db.Account.findOne({
-    where: { email: req.user.dataValues.email }
+    where: { email: email }
   }).then(user => {
+    if (user === null) throw new Error('Invalid user email!')
     const image = req.file
     if (image === null) throw new Error('Missing image!')
 
@@ -12,7 +13,7 @@ const createEvent = (req, res) => {
       name: req.body.name,
       date: req.body.date,
       tickets: req.body.tickets,
-      image_path: image.path,
+      image: image.buffer,
       blurb: req.body.blurb
     })
       .then(event => {
@@ -26,7 +27,6 @@ const createEvent = (req, res) => {
       })
       .catch((err) => {
         console.log(err.errors)
-        fs.unlinkSync(image.path)
         res.status(400)
         res.send({
           success: false,
@@ -34,7 +34,6 @@ const createEvent = (req, res) => {
         })
       })
   }).catch(() => {
-    fs.unlinkSync(req.file.path)
     res.status(400)
     res.send({
       success: false,

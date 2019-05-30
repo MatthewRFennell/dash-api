@@ -10,9 +10,19 @@ const fullevent = (req, res) => {
   }
 
   db.Event.findOne({
-    where: { event_id: req.query.id }
+    where: { event_id: req.query.id },
+    attributes: {
+      exclude: ['image']
+    }
   })
     .then(event => {
+      if (event === null) {
+        throw new Error('Non existent event requested')
+      }
+      if (event.accountAccountId != req.user.dataValues.account_id) {
+        throw new Error('User requested event not belonging to them')
+      }
+
       db.Attendee.findAll({
         attributes: ['fname', 'sname', 'diet'],
         where: { eventEventId: event.event_id }
@@ -26,7 +36,7 @@ const fullevent = (req, res) => {
           })
             .then(transport => {
               res.status(200)
-              if(transport === null){
+              if (transport === null) {
                 transport = {}
               }
               res.send({
@@ -40,9 +50,10 @@ const fullevent = (req, res) => {
     })
     .catch(err => {
       console.log(err)
-      res.status(500)
+      res.status(400)
       res.send({
-        success: false
+        success: false,
+        message: 'This event does not exist!'
       })
     })
 }

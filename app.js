@@ -9,9 +9,9 @@ const app = express()
 const port = 3000
 
 const multer = require('multer')
-// eslint-disable-next-line no-unused-vars
+const memoryStore = multer.memoryStorage()
 const upload = multer({
-  dest: 'images/',
+  storage: memoryStore,
   limits: {
     fileSize: 10000000
   }
@@ -28,12 +28,14 @@ const createTransport = require('./src/routes/createTransport')
 const editEvent = require('./src/routes/editEvent')
 const editTransport = require('./src/routes/editTransport')
 const editAttendee = require('./src/routes/editAttendee')
+const eventImage = require('./src/routes/eventImage')
 
 require('./src/passport')
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(cors())
+app.options('*', cors())
 
 app.get('/', (req, res) => {
   logger.info('Request received.')
@@ -42,7 +44,7 @@ app.get('/', (req, res) => {
 
 app.post('/register', register)
 app.post('/login', login)
-app.post('/createEvent', passport.authenticate('jwt', {session : false}), createEvent)
+app.post('/createEvent', passport.authenticate('jwt', {session : false}), upload.single('image'), createEvent)
 app.post('/addAttendee', passport.authenticate('jwt', {session : false}), addAttendee)
 app.post('/createTransport', passport.authenticate('jwt', {session : false}), createTransport)
 
@@ -55,6 +57,7 @@ app.put('/editTransport', passport.authenticate('jwt', {session : false}), editT
 app.put('/editAttendee', passport.authenticate('jwt', {session : false}), editAttendee)
 
 
+app.get('/eventImage' ,eventImage)
 
 app.listen(process.env.PORT || port, () => {
   logger.info(`Dash Backend started on port ${process.env.PORT || port}`)

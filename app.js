@@ -27,6 +27,8 @@ const addAttendee = require('./src/routes/addAttendee')
 const deleteAttendee = require('./src/routes/deleteAttendee')
 const createTransport = require('./src/routes/createTransport')
 const editEvent = require('./src/routes/editEvent')
+const editTransport = require('./src/routes/editTransport')
+const editAttendee = require('./src/routes/editAttendee')
 const eventImage = require('./src/routes/eventImage')
 
 require('./src/passport')
@@ -53,6 +55,10 @@ app.get('/events', passport.authenticate('jwt', {session : false}) ,events)
 app.get('/fullevent', passport.authenticate('jwt', {session : false}) ,fullevent)
 
 app.put('/editEvent', passport.authenticate('jwt', {session : false}), editEvent)
+app.put('/editTransport', passport.authenticate('jwt', {session : false}), editTransport)
+app.put('/editAttendee', passport.authenticate('jwt', {session : false}), editAttendee)
+
+
 app.get('/eventImage' ,eventImage)
 
 app.listen(process.env.PORT || port, () => {

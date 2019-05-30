@@ -51,7 +51,7 @@ app.get('/events', passport.authenticate('jwt', {session : false}) ,events)
 app.get('/fullevent', passport.authenticate('jwt', {session : false}) ,fullevent)
 
 app.put('/editEvent', passport.authenticate('jwt', {session : false}), editEvent)
-app.get('/eventImage', passport.authenticate('jwt', {session : false}) ,eventImage)
+app.get('/eventImage' ,eventImage)
 
 app.listen(process.env.PORT || port, () => {
   logger.info(`Dash Backend started on port ${process.env.PORT || port}`)

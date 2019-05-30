@@ -14,6 +14,9 @@ const me = require('./src/routes/me')
 const events = require('./src/routes/events')
 const createEvent = require('./src/routes/createEvent')
 const fullevent = require('./src/routes/fullevent')
+const addAttendee = require('./src/routes/addAttendee')
+const createTransport = require('./src/routes/createTransport')
+const editEvent = require('./src/routes/editEvent')
 
 require('./src/passport')
 
@@ -23,17 +26,20 @@ app.use(cors())
 
 app.get('/', (req, res) => {
   logger.info('Request received.')
-  res.send({
-    package: 'Hello World',
-  })
+  res.send('Welcome to the Dash API')
 })
 
 app.post('/register', register)
 app.post('/login', login)
-app.get('/me', passport.authenticate('jwt', {session : false}) ,me)
 app.post('/createEvent', passport.authenticate('jwt', {session : false}), createEvent)
+app.post('/addAttendee', passport.authenticate('jwt', {session : false}), addAttendee)
+app.post('/createTransport', passport.authenticate('jwt', {session : false}), createTransport)
+
+app.get('/me', passport.authenticate('jwt', {session : false}) ,me)
 app.get('/events', passport.authenticate('jwt', {session : false}) ,events)
 app.get('/fullevent', passport.authenticate('jwt', {session : false}) ,fullevent)
+
+app.put('/editEvent', passport.authenticate('jwt', {session : false}), editEvent)
 
 
 app.listen(process.env.PORT || port, () => {

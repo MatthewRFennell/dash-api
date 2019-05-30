@@ -26,6 +26,9 @@ const fullevent = (req, res) => {
           })
             .then(transport => {
               res.status(200)
+              if(transport === null){
+                transport = {}
+              }
               res.send({
                 success: true,
                 events: event,

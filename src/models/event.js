@@ -16,6 +16,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATE,
       allowNull: false,
     },
+    tickets: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
     image_path: {
       type: DataTypes.STRING,
       allowNull: false,

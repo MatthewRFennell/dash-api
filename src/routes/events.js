@@ -13,6 +13,7 @@ const events = (req, res) => {
     where: { accountAccountId: req.user.account_id }
   })
     .then(results => {
+      
       res.status(200)
       res.send({
         success: true,

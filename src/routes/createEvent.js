@@ -1,11 +1,18 @@
 const db = require('../db')
 
 const createEvent = (req, res) => {
-  const email = req.body.email || req.user.dataValues.email
+  const email = req.body.email || req.user.email
   db.Account.findOne({
     where: { email: email }
   }).then(user => {
-    if (user === null) throw new Error('Invalid user email!')
+    if (user === null) {
+      res.status(400)
+      res.send({
+        success: false,
+        message: 'User with that email does not exists'
+      })
+      return
+    }
     const image = req.file
     if (image === null) throw new Error('Missing image!')
 

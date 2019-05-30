@@ -17,7 +17,7 @@ const eventImage = (req, res) => {
       if (result === null) {
         throw new Error('Non existent event image requested.')
       }
-      // if (result.accountAccountId != req.user.dataValues.account_id) {
+      // if (result.accountAccountId != req.user.account_id) {
       //   throw new Error('User requested event image not belonging to them.')
       // }
       res.status(200)

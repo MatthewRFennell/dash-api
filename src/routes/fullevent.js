@@ -19,12 +19,12 @@ const fullevent = (req, res) => {
       if (event === null) {
         throw new Error('Non existent event requested')
       }
-      if (event.accountAccountId != req.user.dataValues.account_id) {
+      if (event.accountAccountId != req.user.account_id) {
         throw new Error('User requested event not belonging to them')
       }
 
       db.Attendee.findAll({
-        attributes: ['fname', 'sname', 'diet'],
+        attributes: ['attendee_id', 'fname', 'sname', 'diet'],
         where: { eventEventId: event.event_id }
       })
         .then(attendees => {

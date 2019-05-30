@@ -1,7 +1,7 @@
 const db = require('../db')
 
 const createEvent = (req, res) => {
-  const email = req.body.email || req.user.dataValues.email
+  const email = req.body.email || req.user.email
   db.Account.findOne({
     where: { email: email }
   }).then(user => {

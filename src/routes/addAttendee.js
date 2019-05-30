@@ -3,7 +3,6 @@ const db = require('../db')
 const addAttendee = (req, res) => {
   // Takes first name, last name, diet and event ID
   // Adds attendee to table
-
   db.Event.findOne({
     where: {
       event_id: req.body.id,
@@ -17,19 +16,23 @@ const addAttendee = (req, res) => {
     }).then((attendee) => {
       return attendee.setEvent(event)
     })
-      .then(() => {
+      .then((attendee) => {
+        console.log(attendee)
         res.status(200)
         res.send({
-          success: true
+          success: true,
+          attendee
         })
-      }).catch(() => {
+      }).catch((err) => {
+        console.log(err)
         res.status(400)
         res.send({
           success: false,
           message: 'Failed to add attendee'
         })
       })
-  }).catch(() => {
+  }).catch((err) => {
+    console.log(err)
     res.status(400)
     res.send({
       successs: false,

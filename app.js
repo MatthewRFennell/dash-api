@@ -33,6 +33,7 @@ require('./src/passport')
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(cors())
+app.options('*', cors())
 
 app.get('/', (req, res) => {
   logger.info('Request received.')

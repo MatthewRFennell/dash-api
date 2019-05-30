@@ -4,7 +4,14 @@ const createEvent = (req, res) => {
   db.Account.findOne({
     where: { email: req.body.email }
   }).then(user => {
-    if (user === null) throw new Error('Invalid user email!')
+    if (user === null) {
+      res.status(400)
+      res.send({
+        success: false,
+        message: 'User with that email does not exists'
+      })
+      return
+    }
     const image = req.file
     if (image === null) throw new Error('Missing image!')
 

@@ -9,9 +9,9 @@ const app = express()
 const port = 3000
 
 const multer = require('multer')
-// eslint-disable-next-line no-unused-vars
+const memoryStore = multer.memoryStorage()
 const upload = multer({
-  dest: 'images/',
+  storage: memoryStore,
   limits: {
     fileSize: 10000000
   }
@@ -26,6 +26,7 @@ const fullevent = require('./src/routes/fullevent')
 const addAttendee = require('./src/routes/addAttendee')
 const createTransport = require('./src/routes/createTransport')
 const editEvent = require('./src/routes/editEvent')
+const eventImage = require('./src/routes/eventImage')
 
 require('./src/passport')
 
@@ -40,7 +41,7 @@ app.get('/', (req, res) => {
 
 app.post('/register', register)
 app.post('/login', login)
-app.post('/createEvent', passport.authenticate('jwt', {session : false}), createEvent)
+app.post('/createEvent', passport.authenticate('jwt', {session : false}), upload.single('image'), createEvent)
 app.post('/addAttendee', passport.authenticate('jwt', {session : false}), addAttendee)
 app.post('/createTransport', passport.authenticate('jwt', {session : false}), createTransport)
 
@@ -49,7 +50,7 @@ app.get('/events', passport.authenticate('jwt', {session : false}) ,events)
 app.get('/fullevent', passport.authenticate('jwt', {session : false}) ,fullevent)
 
 app.put('/editEvent', passport.authenticate('jwt', {session : false}), editEvent)
-
+app.post('/eventImage', passport.authenticate('jwt', {session : false}) ,eventImage)
 
 app.listen(process.env.PORT || port, () => {
   logger.info(`Dash Backend started on port ${process.env.PORT || port}`)

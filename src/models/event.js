@@ -20,8 +20,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    image_path: {
-      type: DataTypes.STRING,
+    image: {
+      type: DataTypes.BLOB,
       allowNull: false,
     },
     blurb: {

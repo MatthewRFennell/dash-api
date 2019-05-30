@@ -10,8 +10,8 @@ const register = (req, res) => {
   res.status(200)
   bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
     db.Account.create({
-      fname: req.body.firstname.toLowerCase(),
-      sname: req.body.lastname.toLowerCase(),
+      fname: req.body.fname.toLowerCase(),
+      sname: req.body.sname.toLowerCase(),
       email: req.body.email.toLowerCase(),
       password: hash,
     })

@@ -11,8 +11,8 @@ const addAttendee = (req, res) => {
     }
   }).then(event => {
     db.Attendee.create({
-      fname: req.body.firstname,
-      sname: req.body.lastname,
+      fname: req.body.fname,
+      sname: req.body.sname,
       diet: req.body.diet
     }).then((attendee) => {
       return attendee.setEvent(event)

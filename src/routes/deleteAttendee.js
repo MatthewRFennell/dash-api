@@ -18,14 +18,14 @@ const deleteAttendee = (req, res) => {
             event_id: attendee.eventEventId
           }
         })
-        .then(event => {
-          if (event && (event.accountAccountId === req.user.account_id)) {
-            attendee.destroy()
-          }
-        })
-        .catch(err => {
-          console.log(err)
-        })
+          .then(event => {
+            if (event && (event.accountAccountId === req.user.account_id)) {
+              attendee.destroy()
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
       } else {
         console.log('User attempted to delete non existent attendee')
       }
@@ -33,7 +33,7 @@ const deleteAttendee = (req, res) => {
     .catch(err => {
       console.log(err)
     })
-    success(res)
+  success(res)
 }
 
 const success = (res) => {

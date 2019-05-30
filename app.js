@@ -8,6 +8,15 @@ const cors = require('cors')
 const app = express()
 const port = 3000
 
+const multer = require('multer')
+// eslint-disable-next-line no-unused-vars
+const upload = multer({
+  dest: 'images/',
+  limits: {
+    fileSize: 10000000
+  }
+})
+
 const login = require('./src/routes/login')
 const register = require('./src/routes/register')
 const me = require('./src/routes/me')

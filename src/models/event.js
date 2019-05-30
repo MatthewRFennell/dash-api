@@ -13,7 +13,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     date: {
-      type: DataTypes.DATEONLY,
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    tickets: {
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
     image_path: {

@@ -15,7 +15,7 @@ passport.use(new LocalStrategy({
 },
 function (email, password, cb) {
   db.Account.findOne({
-    where: { email: email }
+    where: { email: email.toLowerCase() }
   })
     .then(user => {
       if (user) {

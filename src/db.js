@@ -1,8 +1,18 @@
-/*global __dirname */
+/*global __dirname process */
+
+if (process.env.NODE_ENV !== 'production'){
+  require('dotenv').config()
+}
 
 const Sequelize = require('sequelize')
 
-const sequelize = new Sequelize('postgres://g1827124_u:RcpqcbAwaY@db.doc.ic.ac.uk:5432/g1827124_u?ssl=true')
+const password = process.env.db_password
+const user = process.env.db_user
+const database = process.env.db_database
+const domain = process.env.db_domain
+const port = process.env.db_port
+
+const sequelize = new Sequelize(`postgres://${user}:${password}@${domain}:${port}/${database}?ssl=true`)
 
 const Account = sequelize.import(__dirname + '/models/account')
 const Event = sequelize.import(__dirname + '/models/event')

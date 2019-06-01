@@ -1,9 +1,5 @@
 /*global __dirname process */
 
-if (process.env.NODE_ENV !== 'production'){
-  require('dotenv').config()
-}
-
 const Sequelize = require('sequelize')
 
 const password = process.env.db_password

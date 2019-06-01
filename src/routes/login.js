@@ -3,6 +3,8 @@ const logger = require('../util')
 const jwt = require('jsonwebtoken')
 const passport = require('passport')
 
+const secretKey = require('../secret')
+
 const login = (req, res) => {
   logger.info('Logging user in')
   console.log('body parsing', req.body)
@@ -26,7 +28,7 @@ const login = (req, res) => {
           fname : user.fname,
           sname : user.sname
         }
-        const token = jwt.sign(reducedUser, 'yeet', {expiresIn : '24h'})
+        const token = jwt.sign(reducedUser, secretKey, {expiresIn : '24h'})
 
         res.json({
           success: true,

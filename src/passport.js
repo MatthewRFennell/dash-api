@@ -9,6 +9,8 @@ const JWTStrategy = passportJWT.Strategy
 const bcrypt = require('bcrypt')
 const db = require('./db')
 
+const secretKey = require('./secret')
+
 passport.use(new LocalStrategy({
   usernameField: 'email',
   passwordField: 'password'
@@ -38,14 +40,13 @@ function (email, password, cb) {
 
 passport.use(new JWTStrategy({
   jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-  secretOrKey: 'yeet'
+  secretOrKey: secretKey
 },
 function (jwtPayload, cb) {
 
-  //find the user in db if needed
   return db.Account.findOne({
     where: { account_id: jwtPayload.account_id }
-  }) //TODO
+  })
     .then(user => {
       return cb(null, user)
     })

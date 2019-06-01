@@ -47,7 +47,6 @@ app.post('/register', register)
 app.post('/login', login)
 app.post('/createEvent', passport.authenticate('jwt', {session : false}), upload.single('image'), createEvent)
 app.post('/addAttendee', passport.authenticate('jwt', {session : false}), addAttendee)
-app.delete('/deleteAttendee', passport.authenticate('jwt', {session : false}), deleteAttendee)
 app.post('/createTransport', passport.authenticate('jwt', {session : false}), createTransport)
 
 app.get('/me', passport.authenticate('jwt', {session : false}) ,me)
@@ -58,6 +57,7 @@ app.put('/editEvent', passport.authenticate('jwt', {session : false}), editEvent
 app.put('/editTransport', passport.authenticate('jwt', {session : false}), editTransport)
 app.put('/editAttendee', passport.authenticate('jwt', {session : false}), editAttendee)
 
+app.delete('/deleteAttendee', passport.authenticate('jwt', {session : false}), deleteAttendee)
 
 app.get('/eventImage' ,eventImage)
 

@@ -3,12 +3,10 @@ const db = require('../db')
 const deleteAttendee = (req, res) => {
   // Takes event id and attendee id
   // Reports success even on failure
-  console.log(req.query.attendee_id)
-  console.log(req.query)
   db.Attendee.findOne({
     attributes: ['attendee_id', 'eventEventId'],
     where: {
-      attendee_id: req.query.attendee_id
+      attendee_id: req.body.attendee_id
     }
   })
     .then(attendee => {

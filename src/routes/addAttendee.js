@@ -17,7 +17,6 @@ const addAttendee = (req, res) => {
       return attendee.setEvent(event)
     })
       .then((attendee) => {
-        console.log(attendee)
         res.status(200)
         res.send({
           success: true,

@@ -26,21 +26,23 @@ const createEvent = (req, res) => {
       .then(event => {
         return event.setAccount(user)
       })
-      .then(() => {
+      .then((event) => {
         res.status(200)
         res.send({
-          success: true
+          success: true,
+          event
         })
       })
       .catch((err) => {
-        console.log(err.errors)
+        console.log(err)
         res.status(400)
         res.send({
           success: false,
           message: 'Malformed or missing parameters!'
         })
       })
-  }).catch(() => {
+  }).catch((err) => {
+    console.log(err)
     res.status(400)
     res.send({
       success: false,

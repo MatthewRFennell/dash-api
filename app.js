@@ -30,7 +30,6 @@ const createTransport = require('./src/routes/createTransport')
 const editEvent = require('./src/routes/editEvent')
 const editTransport = require('./src/routes/editTransport')
 const editAttendee = require('./src/routes/editAttendee')
-const eventImage = require('./src/routes/eventImage')
 
 require('./src/passport')
 
@@ -61,8 +60,6 @@ app.put('/editTransport', passport.authenticate('jwt', {session : false}), editT
 app.put('/editAttendee', passport.authenticate('jwt', {session : false}), editAttendee)
 
 app.delete('/deleteAttendee', passport.authenticate('jwt', {session : false}), deleteAttendee)
-
-app.get('/eventImage' ,eventImage)
 
 app.listen(process.env.PORT || port, () => {
   logger.info(`Dash Backend started on port ${process.env.PORT || port}`)

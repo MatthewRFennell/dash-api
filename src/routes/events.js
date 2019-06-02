@@ -8,11 +8,8 @@ const events = (req, res) => {
     })
     return
   }
-
   db.Event.findAll({
-    attributes:{
-      where: { accountAccountId: req.user.account_id }
-    }
+    where: { accountAccountId: req.user.account_id }
   })
     .then(results => {
       res.status(200)

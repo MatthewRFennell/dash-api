@@ -10,10 +10,7 @@ const fullevent = (req, res) => {
   }
 
   db.Event.findOne({
-    where: { event_id: req.query.id },
-    attributes: {
-      exclude: ['image']
-    }
+    where: { event_id: req.query.id }
   })
     .then(event => {
       if (event === null) {

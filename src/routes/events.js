@@ -10,10 +10,9 @@ const events = (req, res) => {
   }
 
   db.Event.findAll({
-    attributes: {
-      exclude: ['image']
-    },
-    where: { accountAccountId: req.user.account_id }
+    attributes:{
+      where: { accountAccountId: req.user.account_id }
+    }
   })
     .then(results => {
       res.status(200)

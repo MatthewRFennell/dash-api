@@ -24,6 +24,8 @@ Event.hasMany(Attendee)
 Event.hasOne(Transport)
 Transport.belongsTo(Event)
 
+sequelize.sync()
+
 const db = {
   Account : Account,
   Event: Event,

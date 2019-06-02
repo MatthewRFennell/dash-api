@@ -1,4 +1,4 @@
-/*global process */
+/*global __dirname process */
 require('dotenv').config()
 
 const express = require('express')
@@ -33,6 +33,8 @@ const editAttendee = require('./src/routes/editAttendee')
 const eventImage = require('./src/routes/eventImage')
 
 require('./src/passport')
+
+process.env.GOOGLE_APPLICATION_CREDENTIALS = __dirname + '/Dash-c3f730d891fb.json'
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())

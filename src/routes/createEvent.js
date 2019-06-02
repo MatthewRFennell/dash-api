@@ -1,5 +1,7 @@
 const db = require('../db')
 
+const sendImageToGCS = require('../gcs')
+
 const createEvent = (req, res) => {
   const email = req.body.email || req.user.email
   db.Account.findOne({
@@ -20,7 +22,6 @@ const createEvent = (req, res) => {
       name: req.body.name,
       date: req.body.date,
       tickets: req.body.tickets,
-      image: image.buffer,
       blurb: req.body.blurb
     })
       .then(event => {
@@ -28,9 +29,17 @@ const createEvent = (req, res) => {
       })
       .then((event) => {
         res.status(200)
-        res.send({
-          success: true,
-          event
+        sendImageToGCS(req, res, event.event_id, (url) => {
+          console.log('returned, image uploaded')
+          db.Event.update({
+            image: url
+          }, {where: {event_id: event.event_id}}).then(() => {
+            event.image = url
+            res.send({
+              success: true,
+              event
+            })
+          })
         })
       })
       .catch((err) => {

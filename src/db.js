@@ -22,8 +22,8 @@ Account.hasMany(Event)
 Attendee.belongsTo(Event)
 Event.hasMany(Attendee)
 
-Event.hasOne(Transport)
-Transport.belongsTo(Event)
+Attendee.hasOne(Transport)
+Transport.belongsTo(Attendee)
 
 Event.hasMany(Itinerary)
 Itinerary.belongsTo(Event)

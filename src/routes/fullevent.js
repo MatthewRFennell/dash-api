@@ -25,24 +25,12 @@ const fullevent = (req, res) => {
         where: { eventEventId: event.event_id }
       })
         .then(attendees => {
-          db.Transport.findOne({
-            include: [{
-              model: db.Event,
-              where: { event_id: event.event_id }
-            }]
+          res.send({
+            success: true,
+            events: event,
+            attendees: attendees,
+            transport: {}
           })
-            .then(transport => {
-              res.status(200)
-              if (transport === null) {
-                transport = {}
-              }
-              res.send({
-                success: true,
-                events: event,
-                attendees: attendees,
-                transport: transport
-              })
-            })
         })
     })
     .catch(err => {

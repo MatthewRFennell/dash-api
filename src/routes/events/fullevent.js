@@ -1,4 +1,4 @@
-const db = require('../db')
+const db = require('../../db')
 
 const fullevent = (req, res) => {
   if (!req.user || !req.query.id) {

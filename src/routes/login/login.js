@@ -1,9 +1,9 @@
-const logger = require('../util')
+const logger = require('../../util')
 
 const jwt = require('jsonwebtoken')
 const passport = require('passport')
 
-const secretKey = require('../secret')
+const secretKey = require('../../secret')
 
 const login = (req, res) => {
   logger.info('Logging user in')

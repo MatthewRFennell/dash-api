@@ -1,4 +1,4 @@
-const db = require('../db')
+const db = require('../../db')
 
 const addAttendee = (req, res) => {
   // Takes first name, last name, diet and event ID
@@ -9,6 +9,7 @@ const addAttendee = (req, res) => {
       accountAccountId: req.user.account_id
     }
   }).then(event => {
+    if (event == null) throw new Error('Event does not exist')
     db.Attendee.create({
       fname: req.body.fname,
       sname: req.body.sname,
@@ -35,7 +36,7 @@ const addAttendee = (req, res) => {
     res.status(400)
     res.send({
       successs: false,
-      message: 'Event does not exists'
+      message: 'Event does not exist'
     })
   })
 

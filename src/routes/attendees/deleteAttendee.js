@@ -1,8 +1,7 @@
-const db = require('../db')
+const db = require('../../db')
 
 const deleteAttendee = (req, res) => {
   // Takes event id and attendee id
-  // Reports success even on failure
   db.Attendee.findOne({
     attributes: ['attendee_id', 'eventEventId'],
     where: {
@@ -37,7 +36,7 @@ const deleteAttendee = (req, res) => {
             res.status(400)
             res.send({
               success: false,
-              message: 'Couldn\'t find event'
+              message: 'Attendee doesn\'t belong to an event?'
             })
           })
       } else {

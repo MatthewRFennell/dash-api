@@ -1,6 +1,6 @@
-const db = require('../db')
+const db = require('../../db')
 const bcrypt = require('bcrypt')
-const logger = require('../util')
+const logger = require('../../util')
 const Sequelize = require('sequelize')
 
 const saltRounds = 12

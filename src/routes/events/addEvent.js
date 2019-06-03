@@ -1,8 +1,8 @@
-const db = require('../db')
+const db = require('../../db')
 
-const sendImageToGCS = require('../gcs')
+const sendImageToGCS = require('../../gcs')
 
-const createEvent = (req, res) => {
+const addEvent = (req, res) => {
   const email = req.body.email || req.user.email
   db.Account.findOne({
     where: { email: email }
@@ -61,4 +61,4 @@ const createEvent = (req, res) => {
   })
 }
 
-module.exports = createEvent
+module.exports = addEvent

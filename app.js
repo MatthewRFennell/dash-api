@@ -18,17 +18,23 @@ const upload = multer({
   }
 })
 
-const login = require('./src/routes/login')
-const register = require('./src/routes/register')
-const events = require('./src/routes/events')
-const createEvent = require('./src/routes/createEvent')
-const fullevent = require('./src/routes/fullevent')
-const addAttendee = require('./src/routes/addAttendee')
-const deleteAttendee = require('./src/routes/deleteAttendee')
-const createTransport = require('./src/routes/createTransport')
-const editEvent = require('./src/routes/editEvent')
-const editTransport = require('./src/routes/editTransport')
-const editAttendee = require('./src/routes/editAttendee')
+const login = require('./src/routes/login/login')
+const register = require('./src/routes/login/register')
+
+const events = require('./src/routes/events/events')
+const fullevent = require('./src/routes/events/fullevent')
+const addEvent = require('./src/routes/events/addEvent')
+const editEvent = require('./src/routes/events/editEvent')
+
+const addAttendee = require('./src/routes/attendees/addAttendee')
+const deleteAttendee = require('./src/routes/attendees/deleteAttendee')
+const editAttendee = require('./src/routes/attendees/editAttendee')
+
+const addTransport = require('./src/routes/transport/addTransport')
+const editTransport = require('./src/routes/transport/editTransport')
+
+const addItinerary = require('./src/routes/itinerary/addItinerary')
+const editItinerary = require('./src/routes/itinerary/editItinerary')
 
 require('./src/passport')
 
@@ -50,15 +56,18 @@ app.post('/login', login)
 app.get('/events', passport.authenticate('jwt', {session : false}), events)
 
 app.get('/event', passport.authenticate('jwt', {session : false}), fullevent)
-app.post('/event', passport.authenticate('jwt', {session : false}), upload.single('image'), createEvent)
+app.post('/event', passport.authenticate('jwt', {session : false}), upload.single('image'), addEvent)
 app.put('/event', passport.authenticate('jwt', {session : false}), editEvent)
 
 app.post('/attendee', passport.authenticate('jwt', {session : false}), addAttendee)
 app.put('/attendee', passport.authenticate('jwt', {session : false}), editAttendee)
 app.delete('/attendee', passport.authenticate('jwt', {session : false}), deleteAttendee)
 
-app.post('/transport', passport.authenticate('jwt', {session : false}), createTransport)
+app.post('/transport', passport.authenticate('jwt', {session : false}), addTransport)
 app.put('/transport', passport.authenticate('jwt', {session : false}), editTransport)
+
+app.post('/itinerary', passport.authenticate('jwt', {session : false}), addItinerary)
+app.put('/itinerary', passport.authenticate('jwt', {session : false}), editItinerary)
 
 app.listen(process.env.PORT || port, () => {
   logger.info(`Dash Backend started on port ${process.env.PORT || port}`)

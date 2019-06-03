@@ -1,12 +1,13 @@
-const db = require('../db')
+const db = require('../../db')
 
-const createTransport = (req, res) => {
+const addTransport = (req, res) => {
   db.Event.findOne({
     where: {
       event_id: req.body.id,
       accountAccountId: req.user.account_id
     }
   }).then(event => {
+    if (event == null) throw new Error('User requested non existent event')
     db.Transport.create({
       operator: req.body.operator,
       vessel_id: req.body.vessel_id,
@@ -39,4 +40,4 @@ const createTransport = (req, res) => {
   })
 }
 
-module.exports = createTransport
+module.exports = addTransport

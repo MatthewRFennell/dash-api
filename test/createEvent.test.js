@@ -1,7 +1,7 @@
 const { describe, it } = require('mocha')
 const db = require('../src/db')
 const sinon = require('sinon')
-const createEvent = require('../src/routes/createEvent')
+const addEvent = require('../src/routes/addEvent')
 const httpMocks = require('node-mocks-http')
 
 const req = {
@@ -16,7 +16,7 @@ describe('Create event route', () => {
     const res = httpMocks.createResponse()
     const spy = sinon.spy(db.Event, 'create')
     accountStub.resolves(null)
-    createEvent(req, res)
+    addEvent(req, res)
     sinon.assert.callCount(spy, 0)
     spy.restore()
     accountStub.restore()
@@ -27,7 +27,7 @@ describe('Create event route', () => {
     const res = httpMocks.createResponse()
     const spy = sinon.spy(db.Event, 'create')
     accountStub.resolves('Example person')
-    createEvent(req, res)
+    addEvent(req, res)
     sinon.assert.callCount(spy, 0)
     spy.restore()
     accountStub.restore()

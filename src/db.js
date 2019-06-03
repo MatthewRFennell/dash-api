@@ -14,6 +14,7 @@ const Account = sequelize.import(__dirname + '/models/account')
 const Event = sequelize.import(__dirname + '/models/event')
 const Attendee = sequelize.import(__dirname + '/models/attendee')
 const Transport = sequelize.import(__dirname + '/models/transport')
+const Itinerary = sequelize.import(__dirname + '/models/itinerary')
 
 Event.belongsTo(Account)
 Account.hasMany(Event)
@@ -24,6 +25,9 @@ Event.hasMany(Attendee)
 Event.hasOne(Transport)
 Transport.belongsTo(Event)
 
+Event.hasMany(Itinerary)
+Itinerary.belongsTo(Event)
+
 sequelize.sync()
 
 const db = {
@@ -31,6 +35,7 @@ const db = {
   Event: Event,
   Attendee: Attendee,
   Transport: Transport,
+  Itinerary: Itinerary,
   sequelize : sequelize
 }
 

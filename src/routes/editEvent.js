@@ -5,7 +5,8 @@ const editEvent = (req, res) => {
     name: req.body.name,
     date: req.body.date,
     blurb: req.body.blurb,
-    tickets: req.body.tickets
+    tickets: req.body.tickets,
+    company: req.body.company
   }, {where: {event_id: req.body.id}})
     .then(() => {
       res.status(200)

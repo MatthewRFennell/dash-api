@@ -22,7 +22,8 @@ const createEvent = (req, res) => {
       name: req.body.name,
       date: req.body.date,
       tickets: req.body.tickets,
-      blurb: req.body.blurb
+      blurb: req.body.blurb,
+      company: req.body.company
     })
       .then(event => {
         return event.setAccount(user)

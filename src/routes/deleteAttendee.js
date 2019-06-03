@@ -28,7 +28,7 @@ const deleteAttendee = (req, res) => {
               res.status(400)
               res.send({
                 success: false,
-                message: 'This even\'t isn\'t your event'
+                message: 'This event isn\'t your event'
               })
             }
           })

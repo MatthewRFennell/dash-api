@@ -20,7 +20,6 @@ const upload = multer({
 
 const login = require('./src/routes/login')
 const register = require('./src/routes/register')
-const me = require('./src/routes/me')
 const events = require('./src/routes/events')
 const createEvent = require('./src/routes/createEvent')
 const fullevent = require('./src/routes/fullevent')
@@ -47,19 +46,19 @@ app.get('/', (req, res) => {
 
 app.post('/register', register)
 app.post('/login', login)
-app.post('/createEvent', passport.authenticate('jwt', {session : false}), upload.single('image'), createEvent)
-app.post('/addAttendee', passport.authenticate('jwt', {session : false}), addAttendee)
-app.post('/createTransport', passport.authenticate('jwt', {session : false}), createTransport)
 
-app.get('/me', passport.authenticate('jwt', {session : false}) ,me)
-app.get('/events', passport.authenticate('jwt', {session : false}) ,events)
-app.get('/fullevent', passport.authenticate('jwt', {session : false}) ,fullevent)
+app.get('/events', passport.authenticate('jwt', {session : false}), events)
 
-app.put('/editEvent', passport.authenticate('jwt', {session : false}), editEvent)
-app.put('/editTransport', passport.authenticate('jwt', {session : false}), editTransport)
-app.put('/editAttendee', passport.authenticate('jwt', {session : false}), editAttendee)
+app.get('/event', passport.authenticate('jwt', {session : false}), fullevent)
+app.post('/event', passport.authenticate('jwt', {session : false}), upload.single('image'), createEvent)
+app.put('/event', passport.authenticate('jwt', {session : false}), editEvent)
 
-app.delete('/deleteAttendee', passport.authenticate('jwt', {session : false}), deleteAttendee)
+app.post('/attendee', passport.authenticate('jwt', {session : false}), addAttendee)
+app.put('/attendee', passport.authenticate('jwt', {session : false}), editAttendee)
+app.delete('/attendee', passport.authenticate('jwt', {session : false}), deleteAttendee)
+
+app.post('/transport', passport.authenticate('jwt', {session : false}), createTransport)
+app.put('/transport', passport.authenticate('jwt', {session : false}), editTransport)
 
 app.listen(process.env.PORT || port, () => {
   logger.info(`Dash Backend started on port ${process.env.PORT || port}`)

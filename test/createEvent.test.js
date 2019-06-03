@@ -1,7 +1,7 @@
 const { describe, it } = require('mocha')
 const db = require('../src/db')
 const sinon = require('sinon')
-const addEvent = require('../src/routes/addEvent')
+const addEvent = require('../src/routes/events/addEvent')
 const httpMocks = require('node-mocks-http')
 
 const req = {

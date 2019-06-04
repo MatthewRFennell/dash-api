@@ -37,6 +37,9 @@ const editTransport = require('./src/routes/transport/editTransport')
 const addItinerary = require('./src/routes/itinerary/addItinerary')
 const editItinerary = require('./src/routes/itinerary/editItinerary')
 
+const addMenu = require('./src/routes/menu/addMenu')
+const editMenu = require('./src/routes/menu/editMenu')
+
 require('./src/passport')
 
 process.env.GOOGLE_APPLICATION_CREDENTIALS = __dirname + '/Dash-c3f730d891fb.json'
@@ -70,6 +73,9 @@ app.put('/transport', passport.authenticate('jwt', {session : false}), editTrans
 
 app.post('/itinerary', passport.authenticate('jwt', {session : false}), addItinerary)
 app.put('/itinerary', passport.authenticate('jwt', {session : false}), editItinerary)
+
+app.post('/menu', passport.authenticate('jwt', {session : false}), addMenu)
+app.put('/menu', passport.authenticate('jwt', {session : false}), editMenu)
 
 app.listen(process.env.PORT || port, () => {
   logger.info(`Dash Backend started on port ${process.env.PORT || port}`)

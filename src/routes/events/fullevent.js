@@ -1,7 +1,7 @@
 const db = require('../../db')
 
 const fullevent = (req, res) => {
-  if (!req.user || !req.query.id) {
+  if (!req.user || !req.query.event_id) {
     res.status(400)
     res.send({
       success: false
@@ -10,7 +10,7 @@ const fullevent = (req, res) => {
   }
 
   db.Event.findOne({
-    where: { event_id: req.query.id }
+    where: { event_id: req.query.event_id }
   })
     .then(event => {
       if (event === null) {

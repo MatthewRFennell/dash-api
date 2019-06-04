@@ -18,7 +18,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     diet: {
       type: DataTypes.STRING
-    }
+    },
+    confirmed: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+    },
   }, {
     sequelize,
     modelName: 'attendee'

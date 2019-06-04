@@ -5,7 +5,7 @@ const addAttendee = (req, res) => {
   // Adds attendee to table
   db.Event.findOne({
     where: {
-      event_id: req.body.id,
+      event_id: req.body.event_id,
       accountAccountId: req.user.account_id
     }
   }).then(event => {
@@ -13,7 +13,8 @@ const addAttendee = (req, res) => {
     db.Attendee.create({
       fname: req.body.fname,
       sname: req.body.sname,
-      diet: req.body.diet
+      diet: req.body.diet,
+      confirmed: false,
     }).then((attendee) => {
       return attendee.setEvent(event)
     })

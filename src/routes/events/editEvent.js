@@ -2,7 +2,7 @@ const db = require('../../db')
 
 const editEvent = (req, res) => {
   db.Event.findOne({
-    where: {event_id: req.body.id}
+    where: {event_id: req.body.event_id}
   })
     .then(event => {
       if (event == null) throw new Error('Event does not exist!')

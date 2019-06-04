@@ -3,7 +3,7 @@ const db = require('../../db')
 const addItinerary = (req, res) => {
   db.Event.findOne({
     where: {
-      event_id: req.body.id,
+      event_id: req.body.event_id,
       accountAccountId: req.user.account_id
     }
   }).then(event => {

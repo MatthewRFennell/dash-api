@@ -8,7 +8,7 @@ const editItinerary = (req, res) => {
     end_date: req.body.end_date || null,
     long: req.body.long || null,
     lat: req.body.lat || null,
-  }, { where: { itinerary_id: req.body.id } })
+  }, { where: { itinerary_id: req.body.itinerary_id } })
     .then(() => {
       res.status(200)
       res.send({

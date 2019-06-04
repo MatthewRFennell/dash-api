@@ -1,6 +1,6 @@
 const db = require('../../db')
 
-const editAttendee = (req, res) => {
+const confirmAttendee = (req, res) => {
   db.Attendee.findOne({
     where: {
       attendee_id: req.body.attendee_id
@@ -9,10 +9,7 @@ const editAttendee = (req, res) => {
     .then(attendee => {
       if (attendee == null) throw new Error('Attendee does not exist!')
       attendee.update({
-        fname: req.body.fname,
-        sname: req.body.sname,
-        diet: req.body.diet,
-        confirmed: false,
+        confirmed: true,
       })
         .then(() => {
           res.status(200)
@@ -25,7 +22,7 @@ const editAttendee = (req, res) => {
           res.status(400)
           res.send({
             success: false,
-            message: 'Failed to update attendee'
+            message: 'Failed to confirm attendee'
           })
         })
     })
@@ -39,4 +36,4 @@ const editAttendee = (req, res) => {
     })
 }
 
-module.exports = editAttendee
+module.exports = confirmAttendee

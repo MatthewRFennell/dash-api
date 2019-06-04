@@ -3,7 +3,7 @@ const db = require('../../db')
 const editTransport = (req, res) => {
   db.Transport.findOne({
     where: {
-      transport_id: req.body.id
+      transport_id: req.body.transport_id
     }
   })
     .then(transport => {

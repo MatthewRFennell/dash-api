@@ -22,14 +22,37 @@ const fullevent = (req, res) => {
 
       db.Attendee.findAll({
         attributes: ['attendee_id', 'fname', 'sname', 'diet'],
+        include: [db.Transport],
         where: { eventEventId: event.event_id }
       })
         .then(attendees => {
+          db.Itinerary.findAll({
+            where: { eventEventId: event.event_id },
+            order: [['start_date', 'DESC']]
+          })
+            .then(itinerary => {
+              res.send({
+                success: true,
+                events: event,
+                attendees: attendees,
+                itinerary: itinerary
+              })
+            })
+            .catch(err => {
+              console.log(err)
+              res.status(400)
+              res.send({
+                success: false,
+                message: 'Database error occured!'
+              })
+            })
+        })
+        .catch(err => {
+          console.log(err)
+          res.status(400)
           res.send({
-            success: true,
-            events: event,
-            attendees: attendees,
-            transport: {}
+            success: false,
+            message: 'Database error occured!'
           })
         })
     })

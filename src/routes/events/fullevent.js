@@ -34,9 +34,7 @@ const fullevent = (req, res) => {
       res.status(200)
       res.send({
         success: true,
-        events: event,
-        attendees: event.attendees,
-        itinerary: event.itineraries
+        event,
       })
     })
     .catch(err => {

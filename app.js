@@ -57,25 +57,30 @@ app.get('/', (req, res) => {
 app.post('/register', register)
 app.post('/login', login)
 
-app.get('/events', passport.authenticate('jwt', {session : false}), events)
+app.get('/events', passport.authenticate('jwt', { session: false }), events)
 
-app.get('/event', passport.authenticate('jwt', {session : false}), fullevent)
-app.post('/event', passport.authenticate('jwt', {session : false}), upload.single('image'), addEvent)
-app.put('/event', passport.authenticate('jwt', {session : false}), editEvent)
+app.use('/event', passport.authenticate('jwt', { session: false }))
+app.get('/event', fullevent)
+app.post('/event', upload.single('image'), addEvent)
+app.put('/event', editEvent)
 
-app.post('/attendee', passport.authenticate('jwt', {session : false}), addAttendee)
-app.put('/attendee', passport.authenticate('jwt', {session : false}), editAttendee)
-app.delete('/attendee', passport.authenticate('jwt', {session : false}), deleteAttendee)
-app.patch('/attendee', passport.authenticate('jwt', {session : false}), confirmAttendee)
+app.use('/attendee', passport.authenticate('jwt', { session: false }))
+app.post('/attendee', addAttendee)
+app.put('/attendee', editAttendee)
+app.delete('/attendee', deleteAttendee)
+app.patch('/attendee', confirmAttendee)
 
-app.post('/transport', passport.authenticate('jwt', {session : false}), addTransport)
-app.put('/transport', passport.authenticate('jwt', {session : false}), editTransport)
+app.use('/transport', passport.authenticate('jwt', { session: false }))
+app.post('/transport', addTransport)
+app.put('/transport', editTransport)
 
-app.post('/itinerary', passport.authenticate('jwt', {session : false}), addItinerary)
-app.put('/itinerary', passport.authenticate('jwt', {session : false}), editItinerary)
+app.use('/itinerary', passport.authenticate('jwt', { session: false }))
+app.post('/itinerary', addItinerary)
+app.put('/itinerary', editItinerary)
 
-app.post('/menu', passport.authenticate('jwt', {session : false}), addMenu)
-app.put('/menu', passport.authenticate('jwt', {session : false}), editMenu)
+app.use('/menu', passport.authenticate('jwt', { session: false }))
+app.post('/menu', addMenu)
+app.put('/menu', editMenu)
 
 app.listen(process.env.PORT || port, () => {
   logger.info(`Dash Backend started on port ${process.env.PORT || port}`)

@@ -1,16 +1,28 @@
 const db = require('../../db')
 
 const fullevent = (req, res) => {
-  if (!req.user || !req.query.event_id) {
+  if (!req.query.event_id) {
     res.status(400)
     res.send({
-      success: false
+      success: false,
+      message: 'Missing event id!'
     })
     return
   }
 
   db.Event.findOne({
-    where: { event_id: req.query.event_id }
+    where: { event_id: req.query.event_id },
+    include: [
+      {
+        model: db.Attendee,
+        attributes: ['attendee_id', 'fname', 'sname', 'diet'],
+        include: [db.Transport],
+      },
+      {
+        model: db.Itinerary,
+        include: [db.Menu]
+      }
+    ]
   })
     .then(event => {
       if (event === null) {
@@ -19,42 +31,13 @@ const fullevent = (req, res) => {
       if (event.accountAccountId != req.user.account_id) {
         throw new Error('User requested event not belonging to them')
       }
-
-      db.Attendee.findAll({
-        attributes: ['attendee_id', 'fname', 'sname', 'diet'],
-        include: [db.Transport],
-        where: { eventEventId: event.event_id }
+      res.status(200)
+      res.send({
+        success: true,
+        events: event,
+        attendees: event.attendees,
+        itinerary: event.itineraries
       })
-        .then(attendees => {
-          db.Itinerary.findAll({
-            where: { eventEventId: event.event_id },
-            order: [['start_date', 'DESC']]
-          })
-            .then(itinerary => {
-              res.send({
-                success: true,
-                events: event,
-                attendees: attendees,
-                itinerary: itinerary
-              })
-            })
-            .catch(err => {
-              console.log(err)
-              res.status(400)
-              res.send({
-                success: false,
-                message: 'Database error occured!'
-              })
-            })
-        })
-        .catch(err => {
-          console.log(err)
-          res.status(400)
-          res.send({
-            success: false,
-            message: 'Database error occured!'
-          })
-        })
     })
     .catch(err => {
       console.log(err)

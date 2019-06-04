@@ -1,13 +1,6 @@
 const db = require('../../db')
 
 const events = (req, res) => {
-  if (!req.user) {
-    res.status(400)
-    res.send({
-      success: false
-    })
-    return
-  }
   db.Event.findAll({
     where: { accountAccountId: req.user.account_id }
   })
@@ -20,9 +13,10 @@ const events = (req, res) => {
     })
     .catch(err => {
       console.log(err)
-      res.status(500)
+      res.status(400)
       res.send({
-        success: false
+        success: false,
+        message: 'This account id does not exist!'
       })
     })
 }

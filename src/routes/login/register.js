@@ -14,6 +14,7 @@ const register = (req, res) => {
       sname: req.body.sname.toLowerCase(),
       email: req.body.email.toLowerCase(),
       password: hash,
+      type: 0,
     })
       .then(() => res.send({
         success: true,

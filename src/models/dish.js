@@ -1,23 +1,27 @@
 const Sequelize = require('sequelize')
 
 module.exports = (sequelize, DataTypes) => {
-  class Menu extends Sequelize.Model { }
-  Menu.init({
-    menu_id: {
+  class Dish extends Sequelize.Model { }
+  Dish.init({
+    dish_id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    caterer: {
+    name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    image: {
+    description: {
       type: DataTypes.STRING,
+      allowNull: false,
+    },
+    warnings: {
+      type: DataTypes.ARRAY(DataTypes.STRING)
     },
   }, {
     sequelize,
-    modelName: 'menu'
+    modelName: 'dish'
   })
-  return Menu
+  return Dish
 }

@@ -1,23 +1,20 @@
 const Sequelize = require('sequelize')
 
 module.exports = (sequelize, DataTypes) => {
-  class Menu extends Sequelize.Model { }
-  Menu.init({
-    menu_id: {
+  class Course extends Sequelize.Model { }
+  Course.init({
+    course_id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    caterer: {
+    name: {
       type: DataTypes.STRING,
       allowNull: false,
-    },
-    image: {
-      type: DataTypes.STRING,
-    },
+    }
   }, {
     sequelize,
-    modelName: 'menu'
+    modelName: 'course'
   })
-  return Menu
+  return Course
 }

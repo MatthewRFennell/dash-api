@@ -20,7 +20,17 @@ const fullevent = (req, res) => {
       },
       {
         model: db.Itinerary,
-        include: [db.Menu]
+        include: [
+          {
+            model: db.Menu,
+            include: [
+              {
+                model: db.Course,
+                include: [db.Dish]
+              }
+            ]
+          }
+        ]
       }
     ]
   })

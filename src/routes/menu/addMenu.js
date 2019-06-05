@@ -8,27 +8,51 @@ const addMenu = (req, res) => {
   }).then(itinerary => {
     db.Menu.create({
       caterer: req.body.caterer,
-      items: req.body.items,
-      contains: req.body.contains,
-      price: req.body.price || null,
       image: req.body.image || null,
     }).then((menu) => {
-      return menu.setItinerary(itinerary)
-    })
-      .then((menu) => {
-        res.status(200)
-        res.send({
-          success: true,
-          menu
+      menu.setItinerary(itinerary)
+      req.body.courses.forEach(course => {
+        db.Course.create({
+          name: course.name,
         })
-      }).catch((err) => {
-        console.log(err)
-        res.status(400)
-        res.send({
-          success: false,
-          message: 'Failed to add Menu'
-        })
+          .then(courseDB => {
+            courseDB.setMenu(menu)
+            course.dishes.forEach(dish => {
+              db.Dish.create(dish)
+                .then(dishDB => {
+                  dishDB.setCourse(courseDB)
+                })
+                .catch(err => {
+                  console.log(err)
+                  res.status(400)
+                  res.send({
+                    success: false,
+                    message: 'Failed to add a dish!'
+                  })
+                })
+            })
+          })
+          .catch(err => {
+            console.log(err)
+            res.status(400)
+            res.send({
+              success: false,
+              message: 'Failed to add a course'
+            })
+          })
       })
+      res.status(200)
+      res.send({
+        success: true
+      })
+    }).catch((err) => {
+      console.log(err)
+      res.status(400)
+      res.send({
+        success: false,
+        message: 'Failed to add Menu'
+      })
+    })
   }).catch((err) => {
     console.log(err)
     res.status(400)

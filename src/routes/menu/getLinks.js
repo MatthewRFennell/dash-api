@@ -6,7 +6,8 @@ const getLinks = (req, res) => {
       db.Attendee.findAll({where: {eventEventId: itinerary.eventEventId}})
         .then((attendees) => {
           var links = attendees.map((attendee) => {
-            return `/completeform/${attendee.form_id}`
+            var link = { fname: attendee.fname, sname: attendee.sname, link: `/completeform/${attendee.form_id}` }
+            return link
           })
           return links
         })

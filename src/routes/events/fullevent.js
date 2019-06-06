@@ -12,6 +12,9 @@ const fullevent = (req, res) => {
 
   db.Event.findOne({
     where: { event_id: req.query.event_id },
+    order: [
+      [db.Itinerary, 'start_date', 'ASC']
+    ],
     include: [
       {
         model: db.Attendee,

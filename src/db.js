@@ -40,6 +40,9 @@ Course.belongsTo(Menu)
 Course.hasMany(Dish, { onDelete: 'CASCADE' })
 Dish.belongsTo(Course)
 
+Attendee.belongsToMany(Dish, {through: 'menuchoice'})
+Dish.belongsToMany(Attendee, {through: 'menuchoice'})
+
 sequelize.sync()
 
 const db = {

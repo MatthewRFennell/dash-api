@@ -37,7 +37,7 @@ Menu.belongsTo(Itinerary)
 Menu.hasMany(Course)
 Course.belongsTo(Menu)
 
-Course.hasMany(Dish)
+Course.hasMany(Dish, { onDelete: 'CASCADE' })
 Dish.belongsTo(Course)
 
 sequelize.sync()

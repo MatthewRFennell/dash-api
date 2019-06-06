@@ -23,6 +23,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       allowNull: false,
     },
+    form_id: {
+      type: DataTypes.UUID,
+      defaultValue: Sequelize.UUIDV4
+    },
   }, {
     sequelize,
     modelName: 'attendee'

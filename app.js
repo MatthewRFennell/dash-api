@@ -44,6 +44,8 @@ const makeChoice = require('./src/routes/menu/makeChoice')
 const getEventForm = require('./src/routes/eventForm/getEventForm')
 const submitEventForm = require('./src/routes/eventForm/submitEventForm')
 
+const getMenus = require('./src/routes/menu/getMenus')
+
 
 require('./src/passport')
 
@@ -90,6 +92,7 @@ app.put('/menu', editMenu)
 app.get('/form', getEventForm)
 app.post('/form', submitEventForm)
 
+app.get('/getMenus', getMenus)
 app.post('/choice', makeChoice)
 
 app.listen(process.env.PORT || port, () => {

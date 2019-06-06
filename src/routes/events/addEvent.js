@@ -30,7 +30,7 @@ const addEvent = (req, res) => {
       })
       .then((event) => {
         res.status(200)
-        sendImageToGCS(req, res, event.event_id, (url) => {
+        sendImageToGCS(req.file, `${event.event_id}-${req.body.name}`, (url) => {
           console.log('returned, image uploaded')
           db.Event.update({
             image: url

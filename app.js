@@ -47,6 +47,8 @@ const submitEventForm = require('./src/routes/eventForm/submitEventForm')
 
 const getMenus = require('./src/routes/menu/getMenus')
 
+const setLogo = require('./src/routes/login/setLogo')
+
 
 require('./src/passport')
 
@@ -96,6 +98,8 @@ app.post('/form', submitEventForm)
 app.get('/getlinks', getLinks)
 app.get('/getMenus', getMenus)
 app.post('/makechoice', makeChoice)
+
+app.post('/logo', passport.authenticate('jwt', { session: false }), upload.single('image'), setLogo)
 
 app.listen(process.env.PORT || port, () => {
   logger.info(`Dash Backend started on port ${process.env.PORT || port}`)

@@ -24,6 +24,7 @@ const login = (req, res) => {
 
         const reducedUser = {
           account_id : user.account_id,
+          logo_image: user.logo_image,
           email : user.email,
           fname : user.fname,
           sname : user.sname

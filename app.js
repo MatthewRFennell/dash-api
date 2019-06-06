@@ -95,7 +95,7 @@ app.post('/form', submitEventForm)
 
 app.get('/getlinks', getLinks)
 app.get('/getMenus', getMenus)
-app.post('/choice', makeChoice)
+app.post('/makechoice', makeChoice)
 
 app.listen(process.env.PORT || port, () => {
   logger.info(`Dash Backend started on port ${process.env.PORT || port}`)

@@ -28,6 +28,9 @@ module.exports = (sequelize, DataTypes) => {
     type: {
       type: DataTypes.INTEGER,
       allowNull: false,
+    },
+    logo_image: {
+      type: DataTypes.STRING,
     }
   }, {
     sequelize,

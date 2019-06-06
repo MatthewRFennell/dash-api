@@ -12,10 +12,13 @@ const fullevent = (req, res) => {
 
   db.Event.findOne({
     where: { event_id: req.query.event_id },
+    order: [
+      [db.Itinerary, 'start_date', 'ASC']
+    ],
     include: [
       {
         model: db.Attendee,
-        attributes: ['attendee_id', 'fname', 'sname', 'diet'],
+        attributes: ['attendee_id', 'form_id', 'fname', 'sname', 'diet'],
         include: [db.Transport],
       },
       {

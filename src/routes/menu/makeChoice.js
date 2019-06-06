@@ -1,15 +1,11 @@
 const db = require('../../db')
 
 const makeChoice = (req, res) => {
-  db.Attendee.findOne({where: {attendee_id: req.body.attendee_id}})
+  db.Attendee.findOne({where: {form_id: req.body.uuid}})
     .then((attendee) => {
-      attendee.addDish(req.body.dish_id)
-    })
-    .then(() => {
-      db.Dish.findOne({where: {dish_id: req.body.dish_id}})
-    })
-    .then((dish) => {
-      dish.addAttendee(req.body.attendee_id)
+      req.body.dish_ids.forEach((id) => {
+        attendee.addDish(id)
+      })
     })
     .then(() => {
       res.status(200)

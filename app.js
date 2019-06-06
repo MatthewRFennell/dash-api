@@ -45,6 +45,8 @@ const getLinks = require('./src/routes/menu/getLinks')
 const getEventForm = require('./src/routes/eventForm/getEventForm')
 const submitEventForm = require('./src/routes/eventForm/submitEventForm')
 
+const getMenus = require('./src/routes/menu/getMenus')
+
 
 require('./src/passport')
 
@@ -91,8 +93,9 @@ app.put('/menu', editMenu)
 app.get('/form', getEventForm)
 app.post('/form', submitEventForm)
 
-app.post('/makechoice', makeChoice)
 app.get('/getlinks', getLinks)
+app.get('/getMenus', getMenus)
+app.post('/choice', makeChoice)
 
 app.listen(process.env.PORT || port, () => {
   logger.info(`Dash Backend started on port ${process.env.PORT || port}`)

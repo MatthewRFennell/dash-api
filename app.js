@@ -21,6 +21,8 @@ const upload = multer({
 const login = require('./src/routes/login/login')
 const register = require('./src/routes/login/register')
 
+const getUsers = require('./src/routes/accounts/getUsers')
+
 const events = require('./src/routes/events/events')
 const fullevent = require('./src/routes/events/fullevent')
 const addEvent = require('./src/routes/events/addEvent')
@@ -66,6 +68,8 @@ app.get('/', (req, res) => {
 
 app.post('/register', register)
 app.post('/login', login)
+
+app.get('/users', passport.authenticate('jwt', { session: false }), getUsers)
 
 app.get('/events', passport.authenticate('jwt', { session: false }), events)
 

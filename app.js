@@ -39,15 +39,18 @@ const editTransport = require('./src/routes/transport/editTransport')
 const addItinerary = require('./src/routes/itinerary/addItinerary')
 const editItinerary = require('./src/routes/itinerary/editItinerary')
 
+const menus = require('./src/routes/menu/menus')
 const addMenu = require('./src/routes/menu/addMenu')
 const editMenu = require('./src/routes/menu/editMenu')
+const setMenu = require('./src/routes/menu/setMenu')
+
 const makeChoice = require('./src/routes/menu/makeChoice')
 const getLinks = require('./src/routes/menu/getLinks')
 
 const getEventForm = require('./src/routes/eventForm/getEventForm')
 const submitEventForm = require('./src/routes/eventForm/submitEventForm')
 
-const getMenus = require('./src/routes/menu/getMenus')
+const getUserMenus = require('./src/routes/menu/getUserMenus')
 
 const setLogo = require('./src/routes/login/setLogo')
 
@@ -93,14 +96,17 @@ app.post('/itinerary', addItinerary)
 app.put('/itinerary', editItinerary)
 
 app.use('/menu', passport.authenticate('jwt', { session: false }))
+app.get('/menu', menus)
 app.post('/menu', addMenu)
 app.put('/menu', editMenu)
+
+app.post('/setMenu', passport.authenticate('jwt', { session: false }), setMenu)
 
 app.get('/form', getEventForm)
 app.post('/form', submitEventForm)
 
 app.get('/getlinks', getLinks)
-app.get('/getMenus', getMenus)
+app.get('/getMenus', getUserMenus)
 app.post('/makechoice', makeChoice)
 
 app.post('/logo', passport.authenticate('jwt', { session: false }), upload.single('image'), setLogo)

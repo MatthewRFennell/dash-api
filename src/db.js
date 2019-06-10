@@ -46,17 +46,13 @@ Transport.belongsTo(Attendee)
 Event.hasMany(Itinerary)
 Itinerary.belongsTo(Event)
 
-Itinerary.hasOne(Menu)
-Menu.belongsTo(Itinerary)
+Itinerary.belongsTo(Menu)
 
-Menu.hasMany(Course)
+Menu.hasMany(Course, { onDelete: 'CASCADE' })
 Course.belongsTo(Menu)
 
 Course.hasMany(Dish, { onDelete: 'CASCADE' })
 Dish.belongsTo(Course)
-
-Attendee.belongsToMany(Dish, {through: 'menuchoice'})
-Dish.belongsToMany(Attendee, {through: 'menuchoice'})
 
 sequelize.sync()
 

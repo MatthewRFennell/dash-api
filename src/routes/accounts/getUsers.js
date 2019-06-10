@@ -1,12 +1,8 @@
 const db = require('../../db')
 
 const getUsers = (req, res) => {
-  if (req.user.type !== null && !db.adminAccounts.includes(req.user.type)) {
-    res.status(401)
-    res.send({
-      success: false,
-      message: 'Unauthorized'
-    })
+  if (!db.accountIsAdmin(req.user, res)) {
+    return
   }
   db.Account.findAll({
     where: { type: db.userAccounts }

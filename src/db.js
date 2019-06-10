@@ -22,6 +22,18 @@ const Dish = sequelize.import(__dirname + '/models/dish')
 const userAccounts = [0]
 const adminAccounts = [1]
 
+const accountIsAdmin = (user, res) => {
+  if (user.type !== null && !adminAccounts.includes(user.type)) {
+    res.status(401)
+    res.send({
+      success: false,
+      message: 'Unauthorized'
+    })
+    return false
+  }
+  return true
+}
+
 Event.belongsTo(Account)
 Account.hasMany(Event)
 
@@ -59,7 +71,8 @@ const db = {
   Dish,
   sequelize,
   userAccounts,
-  adminAccounts
+  adminAccounts,
+  accountIsAdmin
 }
 
 module.exports = db

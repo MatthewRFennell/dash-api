@@ -3,6 +3,9 @@ const db = require('../../db')
 const sendImageToGCS = require('../../gcs')
 
 const addEvent = (req, res) => {
+  if (!db.accountIsAdmin(req.user, res)) {
+    return
+  }
   const email = req.body.email || req.user.email
   db.Account.findOne({
     where: { email: email }
@@ -14,6 +17,12 @@ const addEvent = (req, res) => {
         message: 'User with that email does not exists'
       })
       return
+    } else if (!db.userAccounts.includes(user.type)) {
+      res.status(400)
+      res.send({
+        success: false,
+        message: 'Email does not belong to user account'
+      })
     }
     const image = req.file
     if (image === null) throw new Error('Missing image!')

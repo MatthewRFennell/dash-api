@@ -1,6 +1,9 @@
 const db = require('../../db')
 
 const addMenu = async (req, res) => {
+  if (!db.accountIsAdmin(req.user, res)) {
+    return
+  }
   let itinerary
   try {
     itinerary = await db.Itinerary.findOne({

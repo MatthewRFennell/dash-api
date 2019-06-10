@@ -1,8 +1,14 @@
 const db = require('../../db')
 
 const events = (req, res) => {
+  let account_id
+  if (req.query.account_id && db.adminAccounts.includes(req.user.type)) {
+    account_id = req.query.account_id
+  } else {
+    account_id = req.user.account_id
+  }
   db.Event.findAll({
-    where: { accountAccountId: req.user.account_id }
+    where: { accountAccountId: account_id }
   })
     .then(results => {
       res.status(200)

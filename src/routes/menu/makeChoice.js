@@ -3,17 +3,20 @@ const db = require('../../db')
 const makeChoice = (req, res) => {
   db.Attendee.findOne({ where: { form_id: req.body.uuid } })
     .then((attendee) => {
+      if (attendee === null) throw new Error('Invalid UUID submitted!')
       for (const choice of req.body.choices) {
-        db.sequelize.query(`INSERT into menuchoice VALUES (${attendee.attendee_id}, ${choice.dish_id}, ${choice.itinerary_id})`)
-          .catch(err => {
-            console.log(err)
-            res.status(400)
-            res.send({
-              success: false,
-              message: 'An invalid choice was made!'
+        for (const dish of choice.dish_ids) {
+          db.sequelize.query(`INSERT into menuchoice VALUES (${attendee.attendee_id}, ${dish}, ${choice.itinerary_id})`)
+            .catch(err => {
+              console.log(err)
+              res.status(400)
+              res.send({
+                success: false,
+                message: 'An invalid choice was made!'
+              })
+              return
             })
-            return
-          })
+        }
       }
     })
     .then(() => {
@@ -25,7 +28,8 @@ const makeChoice = (req, res) => {
       console.log(err)
       res.status(400)
       res.send({
-        success: false
+        success: false,
+        message: 'Invalid UUID!'
       })
     })
 }

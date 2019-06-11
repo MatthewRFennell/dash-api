@@ -29,12 +29,14 @@ const getMenus = (req, res) => {
         ]
       })
         .then(itineraries => {
-          db.sequelize.query(`SELECT "dishDishId" FROM menuchoice WHERE "attendeeAttendeeId"=${attendee.attendee_id}`, {
+          const plainItineraries = JSON.parse(JSON.stringify(itineraries))
+          console.log(plainItineraries)
+          db.sequelize.query(`SELECT "dishId", "itineraryId" FROM menuchoice WHERE "attendeeId"=${attendee.attendee_id}`, {
             type: db.sequelize.QueryTypes.SELECT
           })
             .then(selectedDishIds => {
               const filteredItineraries = []
-              for (const itinerary of itineraries) {
+              for (const itinerary of plainItineraries) {
                 const filteredItinerary = filterItinerary(itinerary, selectedDishIds)
                 if (filteredItinerary) filteredItineraries.push(filteredItinerary)
               }
@@ -90,18 +92,18 @@ const filterItinerary = (itinerary, dishIds) => {
   if (!itinerary.menu) return null
   const filteredCourses = []
   for (const course of itinerary.menu.courses) {
-    const filteredCourse = filterCourse(course, dishIds)
+    const filteredCourse = filterCourse(course, dishIds, itinerary.itinerary_id)
     if (filteredCourse) filteredCourses.push(filteredCourse)
   }
   if (filteredCourses.length === 0) return null
-  itinerary.menu = filteredCourses
+  itinerary.menu.courses = filteredCourses
   return itinerary
 }
 
-const filterCourse = (course, dishIds) => {
+const filterCourse = (course, dishIds, itinerary_id) => {
   for (const dish of course.dishes) {
     for (const dishId of dishIds) {
-      if (dish.dish_id === dishId.dishDishId) {
+      if (itinerary_id === dishId.itineraryId && dish.dish_id === dishId.dishId) {
         return null
       }
     }

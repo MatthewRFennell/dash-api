@@ -21,6 +21,8 @@ const upload = multer({
 const login = require('./src/routes/login/login')
 const register = require('./src/routes/login/register')
 
+const getUsers = require('./src/routes/accounts/getUsers')
+
 const events = require('./src/routes/events/events')
 const fullevent = require('./src/routes/events/fullevent')
 const addEvent = require('./src/routes/events/addEvent')
@@ -37,15 +39,20 @@ const editTransport = require('./src/routes/transport/editTransport')
 const addItinerary = require('./src/routes/itinerary/addItinerary')
 const editItinerary = require('./src/routes/itinerary/editItinerary')
 
+const menus = require('./src/routes/menu/menus')
 const addMenu = require('./src/routes/menu/addMenu')
 const editMenu = require('./src/routes/menu/editMenu')
+const setMenu = require('./src/routes/menu/setMenu')
+
 const makeChoice = require('./src/routes/menu/makeChoice')
 const getLinks = require('./src/routes/menu/getLinks')
 
 const getEventForm = require('./src/routes/eventForm/getEventForm')
 const submitEventForm = require('./src/routes/eventForm/submitEventForm')
 
-const getMenus = require('./src/routes/menu/getMenus')
+const getUserMenus = require('./src/routes/menu/getUserMenus')
+
+const setLogo = require('./src/routes/login/setLogo')
 
 
 require('./src/passport')
@@ -64,6 +71,8 @@ app.get('/', (req, res) => {
 
 app.post('/register', register)
 app.post('/login', login)
+
+app.get('/users', passport.authenticate('jwt', { session: false }), getUsers)
 
 app.get('/events', passport.authenticate('jwt', { session: false }), events)
 
@@ -87,15 +96,20 @@ app.post('/itinerary', addItinerary)
 app.put('/itinerary', editItinerary)
 
 app.use('/menu', passport.authenticate('jwt', { session: false }))
+app.get('/menu', menus)
 app.post('/menu', addMenu)
 app.put('/menu', editMenu)
+
+app.post('/setMenu', passport.authenticate('jwt', { session: false }), setMenu)
 
 app.get('/form', getEventForm)
 app.post('/form', submitEventForm)
 
 app.get('/getlinks', getLinks)
-app.get('/getMenus', getMenus)
+app.get('/getMenus', getUserMenus)
 app.post('/makechoice', makeChoice)
+
+app.post('/logo', passport.authenticate('jwt', { session: false }), upload.single('image'), setLogo)
 
 app.listen(process.env.PORT || port, () => {
   logger.info(`Dash Backend started on port ${process.env.PORT || port}`)

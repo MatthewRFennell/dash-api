@@ -1,37 +1,7 @@
 const db = require('../../db')
 
 const addMenu = async (req, res) => {
-  let itinerary
-  try {
-    itinerary = await db.Itinerary.findOne({
-      where: {
-        itinerary_id: req.body.itinerary_id,
-      },
-      include: [db.Menu]
-    })
-  } catch (err) {
-    console.log(err)
-    res.status(400)
-    res.send({
-      success: false,
-      message: 'Database error getting itinerary!'
-    })
-    return
-  }
-  if (!itinerary) {
-    res.status(400)
-    res.send({
-      success: false,
-      message: 'This itinerary does not exist!'
-    })
-    return
-  }
-  if (itinerary.menu) {
-    res.status(400)
-    res.send({
-      success: false,
-      message: 'This itinerary already contains a menu!',
-    })
+  if (!db.accountIsAdmin(req.user, res)) {
     return
   }
   let menu
@@ -39,7 +9,6 @@ const addMenu = async (req, res) => {
     menu = await db.Menu.create({
       caterer: req.body.caterer,
       image: req.body.image || null,
-      itineraryItineraryId: itinerary.itinerary_id
     })
   } catch (err) {
     console.log(err)

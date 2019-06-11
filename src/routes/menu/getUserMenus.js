@@ -38,12 +38,33 @@ const getMenus = (req, res) => {
                 const filteredItinerary = filterItinerary(itinerary, selectedDishIds)
                 if (filteredItinerary) filteredItineraries.push(filteredItinerary)
               }
-              res.status(200)
-              res.send({
-                success: true,
-                attendee,
-                itineraries: filteredItineraries
+              db.Account.findOne({
+                attributes: ['logo_image'],
+                include: [{
+                  model: db.Event,
+                  where: {
+                    event_id: attendee.eventEventId
+                  }
+                }],
               })
+                .then(account => {
+                  res.status(200)
+                  res.send({
+                    success: true,
+                    logo_image: account.logo_image,
+                    attendee,
+                    itineraries: filteredItineraries
+                  })
+                })
+                .catch(err => {
+                  console.log(err)
+                  res.status(400)
+                  res.send({
+                    success: false,
+                    message: 'Failed to retrieve account that the attendee belongs to!'
+                  })
+                  return
+                })
             })
             .catch(err => {
               console.log(err)

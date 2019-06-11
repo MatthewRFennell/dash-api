@@ -1,6 +1,9 @@
 const db = require('../../db')
 
 const editEvent = (req, res) => {
+  if (!db.accountIsAdmin(req.user, res)) {
+    return
+  }
   db.Event.findOne({
     where: {event_id: req.body.event_id}
   })

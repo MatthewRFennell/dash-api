@@ -1,6 +1,9 @@
 const db = require('../../db')
 
 const editMenu = async (req, res) => {
+  if (!db.accountIsAdmin(req.user, res)) {
+    return
+  }
   let menu
   try {
     menu = await db.Menu.findOne({

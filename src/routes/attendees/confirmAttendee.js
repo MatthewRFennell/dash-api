@@ -1,6 +1,9 @@
 const db = require('../../db')
 
 const confirmAttendee = (req, res) => {
+  if (!db.accountIsAdmin(req.user, res)) {
+    return
+  }
   db.Attendee.findOne({
     where: {
       attendee_id: req.body.attendee_id

@@ -19,6 +19,21 @@ const Menu = sequelize.import(__dirname + '/models/menu')
 const Course = sequelize.import(__dirname + '/models/course')
 const Dish = sequelize.import(__dirname + '/models/dish')
 
+const userAccounts = [0]
+const adminAccounts = [1]
+
+const accountIsAdmin = (user, res) => {
+  if (user.type !== null && !adminAccounts.includes(user.type)) {
+    res.status(401)
+    res.send({
+      success: false,
+      message: 'Unauthorized'
+    })
+    return false
+  }
+  return true
+}
+
 Event.belongsTo(Account)
 Account.hasMany(Event)
 
@@ -31,30 +46,29 @@ Transport.belongsTo(Attendee)
 Event.hasMany(Itinerary)
 Itinerary.belongsTo(Event)
 
-Itinerary.hasOne(Menu)
-Menu.belongsTo(Itinerary)
+Itinerary.belongsTo(Menu)
 
-Menu.hasMany(Course)
+Menu.hasMany(Course, { onDelete: 'CASCADE' })
 Course.belongsTo(Menu)
 
 Course.hasMany(Dish, { onDelete: 'CASCADE' })
 Dish.belongsTo(Course)
 
-Attendee.belongsToMany(Dish, {through: 'menuchoice'})
-Dish.belongsToMany(Attendee, {through: 'menuchoice'})
-
 sequelize.sync()
 
 const db = {
-  Account : Account,
-  Event: Event,
-  Attendee: Attendee,
-  Transport: Transport,
-  Itinerary: Itinerary,
-  Menu: Menu,
-  Course: Course,
-  Dish: Dish,
-  sequelize : sequelize
+  Account,
+  Event,
+  Attendee,
+  Transport,
+  Itinerary,
+  Menu,
+  Course,
+  Dish,
+  sequelize,
+  userAccounts,
+  adminAccounts,
+  accountIsAdmin
 }
 
 module.exports = db

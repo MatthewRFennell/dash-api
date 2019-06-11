@@ -10,7 +10,7 @@ const login = (req, res) => {
   console.log('body parsing', req.body)
   passport.authenticate('local', {session : false}, (err, user, info) => {
     if(!user) {
-      res.status(400)
+      res.status(401)
       res.send({
         success: false,
         message: info.message
@@ -24,6 +24,8 @@ const login = (req, res) => {
 
         const reducedUser = {
           account_id : user.account_id,
+          type: user.type,
+          logo_image: user.logo_image,
           email : user.email,
           fname : user.fname,
           sname : user.sname

@@ -5,6 +5,9 @@ const addEvent = require('../src/routes/events/addEvent')
 const httpMocks = require('node-mocks-http')
 
 const req = {
+  user: {
+    type: 1
+  },
   body : {
     email : 'john@smith.com'
   }

@@ -2,20 +2,19 @@ const { Storage } = require('@google-cloud/storage')
 
 const storage = new Storage()
 
-const sendImageToGCS = (req, res, id, next) => {
+const sendImageToGCS = (image, gcsFileName, next) => {
   const bucketName = 'dasheventimages'
   const bucket = storage.bucket(bucketName)
-  const gcsFileName = `${id}-${req.body.name}`
   const file = bucket.file(gcsFileName)
 
   const stream = file.createWriteStream({
     metadata: {
-      contentType: req.file.mimetype,
+      contentType: image.mimetype,
     },
   })
 
   stream.on('error', (err) => {
-    req.file.cloudStorageError = err
+    image.cloudStorageError = err
     console.log('ERR', err)
     next(err)
   })
@@ -25,7 +24,7 @@ const sendImageToGCS = (req, res, id, next) => {
     next(`https://storage.googleapis.com/${bucketName}/${gcsFileName}`)
   })
 
-  stream.end(req.file.buffer)
+  stream.end(image.buffer)
 }
 
 module.exports = sendImageToGCS

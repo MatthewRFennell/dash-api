@@ -41,7 +41,7 @@ const fullevent = (req, res) => {
       if (event === null) {
         throw new Error('Non existent event requested')
       }
-      if (event.accountAccountId != req.user.account_id) {
+      if ((req.user.type && !db.adminAccounts.includes(req.user.type)) && event.accountAccountId != req.user.account_id) {
         throw new Error('User requested event not belonging to them')
       }
       res.status(200)

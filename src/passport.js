@@ -26,6 +26,10 @@ function (email, password, cb) {
             return cb(null, user, {
               message: 'Logged in Successfully'
             })
+          } else {
+            return cb(null, false, {
+              message: 'Details not valid'
+            })
           }
         })
       }

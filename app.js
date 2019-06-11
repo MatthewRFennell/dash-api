@@ -85,7 +85,8 @@ app.use('/attendee', passport.authenticate('jwt', { session: false }))
 app.post('/attendee', addAttendee)
 app.put('/attendee', editAttendee)
 app.delete('/attendee', deleteAttendee)
-app.patch('/attendee', confirmAttendee)
+
+app.post('/confirmAttendee', passport.authenticate('jwt', { session: false }), confirmAttendee)
 
 app.use('/transport', passport.authenticate('jwt', { session: false }))
 app.post('/transport', addTransport)

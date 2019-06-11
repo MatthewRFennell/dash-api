@@ -32,8 +32,7 @@
     "pg-hstore": "^2.3.2",
     "sequelize": "^5.8.6",
     "supertest": "^4.0.2",
-    "uuid": "^3.3.2",
-    "uuidv4": "^4.0.0"
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "chai": "^4.2.0",

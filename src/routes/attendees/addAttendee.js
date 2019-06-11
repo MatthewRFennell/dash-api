@@ -5,11 +5,11 @@ const addAttendee = (req, res) => {
   // Adds attendee to table
   db.Event.findOne({
     where: {
-      event_id: req.body.event_id,
-      accountAccountId: req.user.account_id
+      event_id: req.body.event_id 
     }
   }).then(event => {
     if (event == null) throw new Error('Event does not exist')
+    if (!db.adminAccounts.includes(req.user.type) && event.accountAccountId !== req.user.account_id) throw new Error('User attempted to access event not belonging to them')
     db.Attendee.create({
       fname: req.body.fname,
       sname: req.body.sname,

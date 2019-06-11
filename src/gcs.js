@@ -1,9 +1,11 @@
 const { Storage } = require('@google-cloud/storage')
+const uuid = require('uuidv4')
 
 const storage = new Storage()
 
-const sendImageToGCS = (image, gcsFileName, next) => {
+const sendImageToGCS = (image, event, next) => {
   const bucketName = 'dasheventimages'
+  const gcsFileName = uuid()
   const bucket = storage.bucket(bucketName)
   const file = bucket.file(gcsFileName)
 

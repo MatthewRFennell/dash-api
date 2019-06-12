@@ -30,6 +30,7 @@
     "passport-local": "^1.0.0",
     "pg": "^7.11.0",
     "pg-hstore": "^2.3.2",
+    "react-helmet": "^5.2.1",
     "sequelize": "^5.8.6",
     "supertest": "^4.0.2",
     "uuid": "^3.3.2"

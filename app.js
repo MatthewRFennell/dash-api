@@ -51,6 +51,7 @@ const getEventForm = require('./src/routes/eventForm/getEventForm')
 const submitEventForm = require('./src/routes/eventForm/submitEventForm')
 
 const getUserMenus = require('./src/routes/menu/getUserMenus')
+const seeMenuChoices = require('./src/routes/menu/seeMenuChoices')
 
 const setLogo = require('./src/routes/login/setLogo')
 
@@ -109,6 +110,7 @@ app.post('/form', submitEventForm)
 app.get('/getlinks', getLinks)
 app.get('/getMenus', getUserMenus)
 app.post('/makechoice', makeChoice)
+app.get('/menuchoices', seeMenuChoices)
 
 app.post('/logo', passport.authenticate('jwt', { session: false }), upload.single('image'), setLogo)
 

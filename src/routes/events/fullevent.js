@@ -55,40 +55,42 @@ const fullevent = async (req, res) => {
   }
   // Convert to plain to parse menu choices
   const plainEvent = JSON.parse(JSON.stringify(event))
-  const eventAttendees = plainEvent.attendees.map(a => a.attendee_id)
-  let selectedDishIds
-  try {
-    selectedDishIds = await db.sequelize.query(`SELECT * FROM menuchoice WHERE "attendeeId" IN (${eventAttendees})`, {
-      type: db.sequelize.QueryTypes.SELECT
-    })
-  } catch (err) {
-    console.log(err)
-    res.status(400)
-    res.send({
-      success: false,
-      message: 'Error retrieving menu choices'
-    })
-  }
-  for (const attendee of plainEvent.attendees) {
-    attendee.menuchoices = []
-    attendee.menuscompleted = true
-    for (const itinerary of plainEvent.itineraries) {
-      if (itinerary.menu) {
-        const itineraryChoice = {
-          name: itinerary.name,
-          description: itinerary.description,
-          courses: []
-        }
-        attendee.menuchoices.push(itineraryChoice)
-        for (const course of itinerary.menu.courses) {
-          const courseChoice = {
-            name: course.name,
-            choice: getCourseChoice(attendee, itinerary, course, selectedDishIds)
+  if (plainEvent.attendees.length > 0) {
+    const eventAttendees = plainEvent.attendees.map(a => a.attendee_id)
+    let selectedDishIds
+    try {
+      selectedDishIds = await db.sequelize.query(`SELECT * FROM menuchoice WHERE "attendeeId" IN (${eventAttendees})`, {
+        type: db.sequelize.QueryTypes.SELECT
+      })
+    } catch (err) {
+      console.log(err)
+      res.status(400)
+      res.send({
+        success: false,
+        message: 'Error retrieving menu choices'
+      })
+    }
+    for (const attendee of plainEvent.attendees) {
+      attendee.menuchoices = []
+      attendee.menuscompleted = true
+      for (const itinerary of plainEvent.itineraries) {
+        if (itinerary.menu) {
+          const itineraryChoice = {
+            name: itinerary.name,
+            description: itinerary.description,
+            courses: []
           }
-          if (courseChoice.choice === null) {
-            attendee.menuscompleted = false
+          attendee.menuchoices.push(itineraryChoice)
+          for (const course of itinerary.menu.courses) {
+            const courseChoice = {
+              name: course.name,
+              choice: getCourseChoice(attendee, itinerary, course, selectedDishIds)
+            }
+            if (courseChoice.choice === null) {
+              attendee.menuscompleted = false
+            }
+            itineraryChoice.courses.push(courseChoice)
           }
-          itineraryChoice.courses.push(courseChoice)
         }
       }
     }

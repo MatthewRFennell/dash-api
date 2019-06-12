@@ -1,13 +1,12 @@
 const db = require('../../db')
 
 const addTransport = (req, res) => {
-  db.Event.findOne({
+  db.Attendee.findOne({
     where: {
-      event_id: req.body.event_id,
-      accountAccountId: req.user.account_id
+      attendee_id: req.body.attendee_id
     }
-  }).then(event => {
-    if (event == null) throw new Error('User requested non existent event')
+  }).then(attendee => {
+    if (attendee == null) throw new Error('User requested non existent attendee')
     db.Transport.create({
       operator: req.body.operator,
       vessel_id: req.body.vessel_id,
@@ -16,11 +15,11 @@ const addTransport = (req, res) => {
       departFrom: req.body.departFrom,
       arriveAt: req.body.arriveAt
     }).then(trans => {
-      return trans.setEvent(event)
-    }).then(() => {
+      trans.setAttendee(attendee)
       res.status(200)
       res.send({
-        success: true
+        success: true,
+        transport: trans
       })
     }).catch((err) => {
       console.log(err)
@@ -35,7 +34,7 @@ const addTransport = (req, res) => {
     res.status(400)
     res.send({
       successs: false,
-      message: 'Event does not exists'
+      message: 'Attendee does not exists'
     })
   })
 }

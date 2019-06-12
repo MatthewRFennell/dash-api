@@ -35,6 +35,7 @@ const confirmAttendee = require('./src/routes/attendees/confirmAttendee')
 
 const addTransport = require('./src/routes/transport/addTransport')
 const editTransport = require('./src/routes/transport/editTransport')
+const deleteTransport = require('./src/routes/transport/deleteTransport')
 
 const addItinerary = require('./src/routes/itinerary/addItinerary')
 const editItinerary = require('./src/routes/itinerary/editItinerary')
@@ -92,6 +93,7 @@ app.post('/confirmAttendee', passport.authenticate('jwt', { session: false }), c
 app.use('/transport', passport.authenticate('jwt', { session: false }))
 app.post('/transport', addTransport)
 app.put('/transport', editTransport)
+app.delete('/transport', deleteTransport)
 
 app.use('/itinerary', passport.authenticate('jwt', { session: false }))
 app.post('/itinerary', addItinerary)

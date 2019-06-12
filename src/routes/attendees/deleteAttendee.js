@@ -16,7 +16,7 @@ const deleteAttendee = (req, res) => {
   })
     .then(attendee => {
       if (attendee === null) throw new Error('Non existent attendee!')
-      if (attendee.event.accountAccountId === req.user.account_id) {
+      if (db.adminAccounts.includes(req.user.type) || attendee.event.accountAccountId === req.user.account_id) {
         attendee.destroy()
         res.status(200)
         res.send({

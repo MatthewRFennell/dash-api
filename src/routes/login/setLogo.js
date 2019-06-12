@@ -18,7 +18,7 @@ const setLogo = (req, res) => {
   })
     .then(account => {
       if (account === null) throw new Error('No matching account!')
-      sendImageToGCS(req.file, `${account.account_id}-${account.fname}`, (url) => {
+      sendImageToGCS(req.file, false, (url) => {
         console.log('returned, image uploaded')
         account.update({
           logo_image: url

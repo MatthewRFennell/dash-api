@@ -20,8 +20,7 @@ const fullevent = async (req, res) => {
       include: [
         {
           model: db.Attendee,
-          attributes: ['attendee_id', 'form_id', 'fname', 'sname', 'diet'],
-          include: [db.Transport],
+          include: [db.Transport]
         },
         {
           model: db.Itinerary,

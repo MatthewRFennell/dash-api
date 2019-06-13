@@ -4,9 +4,18 @@ const addTransport = (req, res) => {
   db.Attendee.findOne({
     where: {
       attendee_id: req.body.attendee_id
-    }
+    },
+    include: [db.Transport]
   }).then(attendee => {
     if (attendee == null) throw new Error('User requested non existent attendee')
+    if (attendee.transport !== null) {
+      res.status(400)
+      res.send({
+        success: false,
+        message: 'Attendee already has transport, edit or delete instead!'
+      })
+      return
+    }
     db.Transport.create({
       operator: req.body.operator,
       vessel_id: req.body.vessel_id,

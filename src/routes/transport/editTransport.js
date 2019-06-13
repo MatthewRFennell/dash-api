@@ -16,10 +16,21 @@ const editTransport = (req, res) => {
         departFrom: req.body.departFrom,
         arriveAt: req.body.arriveAt
       })
-      res.status(200)
-      res.send({
-        success: true
-      })
+        .then(newTransport => {
+          res.status(200)
+          res.send({
+            success: true,
+            transport: newTransport
+          })
+        })
+        .catch(err => {
+          console.log(err)
+          res.status(400)
+          res.send({
+            success: false,
+            message: 'Error updating transport!'
+          })
+        })
     })
     .catch(err => {
       console.log(err)

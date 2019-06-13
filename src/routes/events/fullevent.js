@@ -74,21 +74,35 @@ const fullevent = async (req, res) => {
       attendee.menuscompleted = true
       for (const itinerary of plainEvent.itineraries) {
         if (itinerary.menu) {
+          if (!itinerary.menu.hasOwnProperty('notChosen')) {
+            itinerary.menu.notChosen = 0
+          }
           const itineraryChoice = {
             name: itinerary.name,
             description: itinerary.description,
-            courses: []
+            courses: [],
+            completed: true
           }
           attendee.menuchoices.push(itineraryChoice)
           for (const course of itinerary.menu.courses) {
+            if (!course.hasOwnProperty('notChosen')) {
+              course.notChosen = 0
+            }
             const courseChoice = {
               name: course.name,
-              choice: getCourseChoice(attendee, itinerary, course, selectedDishIds)
+              choice: getCourseChoice(attendee, itinerary, course, selectedDishIds),
+              completed: true
             }
             if (courseChoice.choice === null) {
+              courseChoice.completed = false
+              itineraryChoice.completed = false
               attendee.menuscompleted = false
+              course.notChosen++
             }
             itineraryChoice.courses.push(courseChoice)
+          }
+          if (!itineraryChoice.completed) {
+            itinerary.menu.notChosen++
           }
         }
       }
@@ -103,10 +117,14 @@ const fullevent = async (req, res) => {
 
 const getCourseChoice = (attendee, itinerary, course, dishIds) => {
   for (const dish of course.dishes) {
+    if (!dish.hasOwnProperty('chosen')) {
+      dish.chosen = 0
+    }
     for (const dishChoice of dishIds) {
       if (attendee.attendee_id === dishChoice.attendeeId &&
         itinerary.itinerary_id === dishChoice.itineraryId &&
         dish.dish_id === dishChoice.dishId) {
+        dish.chosen++
         return dish
       }
     }

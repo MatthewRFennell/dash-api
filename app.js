@@ -112,7 +112,7 @@ app.post('/form', submitEventForm)
 app.get('/getlinks', getLinks)
 app.get('/getMenus', getUserMenus)
 app.post('/makechoice', makeChoice)
-app.get('/menuchoices', seeMenuChoices)
+app.get('/menuchoices', passport.authenticate('jwt', { session: false }), seeMenuChoices)
 
 app.post('/logo', passport.authenticate('jwt', { session: false }), upload.single('image'), setLogo)
 

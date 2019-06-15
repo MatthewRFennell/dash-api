@@ -18,6 +18,8 @@ const upload = multer({
   }
 })
 
+const brewCoffee = require('./src/routes/coffee/brewCoffee')
+
 const login = require('./src/routes/login/login')
 const register = require('./src/routes/login/register')
 
@@ -70,6 +72,8 @@ app.get('/', (req, res) => {
   logger.info('Request received.')
   res.send('Welcome to the Dash API')
 })
+
+app.post('/coffee', brewCoffee)
 
 app.post('/register', register)
 app.post('/login', login)

@@ -9,10 +9,11 @@ const editItinerary = (req, res) => {
     long: req.body.long || null,
     lat: req.body.lat || null,
   }, { where: { itinerary_id: req.body.itinerary_id } })
-    .then(() => {
+    .then((itinerary) => {
       res.status(200)
       res.send({
-        success: true
+        success: true,
+        itinerary
       })
     }).catch(err => {
       console.log(err)

@@ -14,10 +14,11 @@ const editAttendee = (req, res) => {
         diet: req.body.diet,
         confirmed: false,
       })
-        .then(() => {
+        .then((attendee) => {
           res.status(200)
           res.send({
-            success: true
+            success: true,
+            attendee
           })
         })
         .catch(err => {

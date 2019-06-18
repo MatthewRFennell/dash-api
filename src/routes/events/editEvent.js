@@ -5,7 +5,7 @@ const editEvent = (req, res) => {
     return
   }
   db.Event.findOne({
-    where: {event_id: req.body.event_id}
+    where: { event_id: req.body.event_id }
   })
     .then(event => {
       if (event == null) throw new Error('Event does not exist!')
@@ -17,10 +17,21 @@ const editEvent = (req, res) => {
         tickets: req.body.tickets,
         company: req.body.company
       })
-      res.status(200)
-      res.send({
-        success: true
-      })
+        .then(newEvent => {
+          res.status(200)
+          res.send({
+            success: true,
+            event: newEvent
+          })
+        })
+        .catch(err => {
+          console.log(err)
+          res.status(400)
+          res.send({
+            success: false,
+            message: 'Failed to update event!'
+          })
+        })
     })
     .catch(err => {
       console.log(err)

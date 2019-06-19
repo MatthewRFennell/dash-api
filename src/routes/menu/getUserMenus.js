@@ -11,6 +11,7 @@ const getMenus = (req, res) => {
   }
   db.Attendee.findOne({
     where: { form_id: req.query.form_id },
+    include: [db.Event]
   })
     .then(attendee => {
       if (attendee === null) throw new Error('Uuid not found!')
@@ -53,6 +54,7 @@ const getMenus = (req, res) => {
                   res.status(200)
                   res.send({
                     success: true,
+                    event_image: attendee.event.image,
                     logo_image: account.logo_image,
                     attendee,
                     itineraries: filteredItineraries

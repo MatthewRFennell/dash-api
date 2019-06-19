@@ -73,7 +73,7 @@ app.get('/', (req, res) => {
   res.send('Welcome to the Dash API')
 })
 
-app.post('/coffee', brewCoffee)
+app.get('/coffee', brewCoffee)
 
 app.post('/register', register)
 app.post('/login', login)

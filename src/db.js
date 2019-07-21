@@ -1,4 +1,4 @@
-/*global __dirname */
+/*global __dirname process */
 
 const Sequelize = require('sequelize')
 
@@ -8,7 +8,7 @@ const Sequelize = require('sequelize')
 // const domain = process.env.db_domain
 // const port = process.env.db_port
 
-const sequelize = new Sequelize('postgres://mcgkwfntpjrwsz:843ec9c146e2b09db374a6e35abe51242051e1f35eca3cb225aa7b0a83325bff@ec2-23-21-160-38.compute-1.amazonaws.com:5432/d608o4lr6u2jbn?ssl=true')
+const sequelize = new Sequelize(process.env.DATABASE_URL || 'postgres://mcgkwfntpjrwsz:843ec9c146e2b09db374a6e35abe51242051e1f35eca3cb225aa7b0a83325bff@ec2-23-21-160-38.compute-1.amazonaws.com:5432/d608o4lr6u2jbn?ssl=true')
 
 const Account = sequelize.import(__dirname + '/models/account')
 const Event = sequelize.import(__dirname + '/models/event')
